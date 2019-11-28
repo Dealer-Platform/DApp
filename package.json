@@ -1,0 +1,31 @@
+{
+  "name": "incident-reporting-plattform",
+  "version": "1.0.0",
+  "description": "EOS Incident Reporting Frontend with Node.js",
+  "author": "Florian Menges <florian.menges@ur.de>, Benedikt Putz <bendedikt.putz@ur.de>",
+  "license": "MIT",
+  "main": "app.js",
+  "keywords": [
+    "nodejs",
+    "bootstrap",
+    "express"
+  ],
+  "scripts": {
+    "serve": "node app.js"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bigdecimal": "^0.6.1",
+    "ipfs-http-client": "^39.0.2",
+    "eosjs": "^20.0.0",
+    "eosjs-api": "^7.0.4",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "fs": "0.0.1-security",
+    "jquery": "^3.4.0",
+    "jsdom": "^14.0.0",
+    "mongodb": "^3.2.3",
+    "node-fetch": "^2.3.0",
+    "util": "^0.11.1"
+  }
+}

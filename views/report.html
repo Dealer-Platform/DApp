@@ -1,0 +1,152 @@
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Report Incident</a>
+    </div>
+</nav>
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 200px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-default opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center">
+
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Incident Information</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="/report" method="post">
+                        <h6 class="heading-small text-muted mb-4">Basic information</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">Title</label>
+                                        <input type="text" name="incidentTitle"
+                                               class="form-control form-control-alternative" placeholder="report title"
+                                               value="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Description</label>
+                                        <input id="input-email" class="form-control form-control-alternative"
+                                               name="incidentDesc"
+                                               placeholder="description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-first-name">Industry Sector</label>
+
+                                        <select id="incidentIndustry" name="incidentIndustry" size=1
+                                                class="form-control form-control-alternative">
+                                            <option value="Gesundheit">Healthcare</option>
+                                            <option value="Energie">Energy</option>
+                                            <option value="Staat und Verwaltung">Administration</option>
+                                            <option value="Medien und Kultur">Media and Culture</option>
+                                            <option value="Finanz- und Versicherungswesen">Finance- and Insurance
+                                            </option>
+                                            <option value="Ernährung">Food Industry</option>
+                                            <option value="Informationstechnik und Telekommunikation">IT and
+                                                Telecomunication
+                                            </option>
+                                            <option value="Wasser">Water supply</option>
+                                            <option value="Transport und Verkehr">Transportation and Traffic</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4"/>
+                        <!-- Address -->
+                        <h6 class="heading-small text-muted mb-4">Structured Incident Information</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address">STIX Contents</label>
+
+                                        <textarea rows="6" id="input-address" name="incidentData"
+                                                  class="form-control form-control-alternative"
+                                                  placeholder="STIX Contents"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr class="my-4"/>
+                        <h6 class="heading-small text-muted mb-4">Exchange Type</h6>
+                        <div class="pl-lg-4">
+                            <div class="boxes">
+                                <input type="checkbox" id="box-1" name="isreport" checked>
+                                <label for="box-1" style="display: inline-block;">Report to authority</label>
+
+                                <input type="checkbox" id="box-2" checked name="forsale">
+                                <label for="box-2" style="display: inline-block; margin-left: 50px;">Sell Incident information at marketplace</label>
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4"/>
+                        <!-- Description -->
+                        <h6 class="heading-small text-muted mb-4">Pricing</h6>
+                        <div class="pl-lg-4">
+                            <div class="form-group">
+                                <label>Pricing</label>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-country">Price</label>
+                                            <input type="number" id="input-country" name="incidentPrice"
+                                                   class="form-control form-control-alternative" placeholder="Price"
+                                                   value="12">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-country">Verify-reward</label>
+                                            <input type="number" id="input-postal-code" name="incidentReward"
+                                                   class="form-control form-control-alternative" placeholder=""
+                                                   value="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                    </div>
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-4">
+                                        <input class="btn btn-primary btn-lg float-right" type="submit"
+                                               value="Report analysis">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

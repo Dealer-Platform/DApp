@@ -1,0 +1,142 @@
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Blaming</a>
+    </div>
+</nav>
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 200px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-default opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center">
+
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Blame another user</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="#!" class="btn btn-sm btn-primary">Blaming interface</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3>Blame </h3>
+                                <p>
+                                    <form action="/blame" method="post">
+                                        <table>
+                                            <input type="text" id="freeze" name="freeze" value="freeze" hidden/>
+                                            <tr>
+                                <P>
+                                <td><label>* Misbehaving user</label></td>
+                                <td><input type="text" id="blamed" name="blamed" maxlength="20" placeholder="EOSIO User"
+                                           required/></td>
+                                </P>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td><label>* Reason</label></td>
+                                    <td><input type="text" id="reason" name="reason" maxlength="256"
+                                               placeholder="Max 256 characters" required/></td>
+                                    </P>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td colspan="2">
+                                        Dangerous Action:<br>
+                                        The user maybe blocked and may lose tokens
+                                    </td>
+                                    </p>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td colspan="2"><input class="btn btn-danger btn-lg" type="submit"
+                                                           value="Request blocking"></td>
+                                    </p>
+                                </tr>
+                                </table>
+                                </form>
+                                </p>
+                            </div>
+                            <div class="col-lg-6">
+                                <h3>Request user unblock</h3>
+                                <p>
+                                    <form action="/blame" method="post">
+                                        <table>
+                                            <input type="text" id="freeze" name="freeze" value="unfreeze" hidden/>
+                                            <tr>
+                                <P>
+                                <td><label>* Blocked user</label></td>
+                                <td><input type="text" id="blamed" name="blamed" maxlength="20" placeholder="EOSIO User"
+                                           required/></td>
+                                </P>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td><label>* Reason</label></td>
+                                    <td><input type="text" id="reason" name="reason" maxlength="256"
+                                               placeholder="Max 256 characters." required/></td>
+                                    </P>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td colspan="2">
+                                        Dangerous Action:<br>
+                                        The user may be unblocked and rejoins the system
+                                    </td>
+                                    </p>
+                                </tr>
+                                <tr>
+                                    <p>
+                                    <td colspan="2"><input class="btn btn-danger btn-lg" type="submit"  value="Request unblock"></td>
+                                    </p>
+                                </tr>
+                                </table>
+                                </form>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p class="error"></p>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h3>Requests</h3>
+                                    <p class="blamings"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="error"></p>
+        </div>
+    </div>
+</div>
+
+
+
+

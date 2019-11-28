@@ -1,0 +1,46 @@
+{
+  "user": "seller",
+   "privateKey_eos": "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
+   "publicKey_eos": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+   "Users": {
+    "Contract": {
+      "privatekey": "5JcBQz7rrG32HN5msnsK6c4mUK3kxD1y1EtPmgViJb9eRhHAMXh",
+      "publickey": "EOS8FuqdckjMqjbFc8F1ieEoreP9DQaKjH7aZ9mQ6tB37xgxxfrp7"
+    },
+    "Seller": {
+      "privatekey": "5KeYTtZokBYX8NkmNW2xd8b9ryHQLQo3nbL6M91MreCEnqHoxij",
+      "publickey": "EOS5xgacsRZtLTiS5sig3NgLvxKMuWQ2qrUzMi2hE4W9jtLvfA9Cc"
+    },
+    "Buyer": {
+      "privatekey": "5JLuwzZAwQqRc2EZh5MMmKkuaUwaVr45DeoqPteL7eUeVx5XG4d",
+      "publickey": "EOS6qrgnBXUxASyjpT5S1qXuhCEN5CdapM9t3kBxmb9aetX5wJ66g"
+    },
+    "Verifier": {
+      "privatekey": "5HuogGP58toNBLozGH44UD61aa5eDk3sgsrPdau1ie3hqotpz6m",
+      "publickey": "EOS8R4etQW1gXhUEpYyr1FbNdH9tuFRTL23s6LUrCKmCXoS9GZYW9"
+    }
+  },
+  "privateKey_mongo": "-----BEGIN ENCRYPTED PRIVATE KEY-----\n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\n-----END ENCRYPTED PRIVATE KEY-----\n",
+  "publicKey_mongo": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3CPIoTuHlhcVmmAaDPa2\n+j/sxUlwvszLN4zSFVsOb8n5O31lIAOZosNlZwvGvUFEFLDw9XHbchfxDaROpfmD\nkbaT7ePHmIZPNRduC76c5fD4h7mUA7aww/f4Wou3kfedX/gRIQiUc40rbBiwDbdl\ne24b/mQ1mnHTKPbJNuyBCEm0gB9ln7cY7gJIdPjTS9i9bcEIh0XqkQA0HQdhNFJn\nKMGZxYOY+RQ9BHxrai7Hp2FNlnOCzi/DAoPWIQWpo7NdIQDGs3aPdtWqUKLIGA3h\n5e9TfaF4/KrCvbSgLB+SiWBOJPyec1XLVIiCW99jUUHWgkPXRZz0+sRfZQ5LIfZT\nsOSZmFMAYTf1U7rTLGS26o8tKNwlS116Xxj/Raag6rpfN6fCxH/DjFXSn0wgyIAY\nNcUb3WT5bstJm4/mEgW1IKug8cTJ99JAo50yqQOurxLxeVarAwwMLWeO/pu2UGrd\n7g6skje1urd9XPrZpNLfy/6DJPGpIwsMGCprljrLpNHC01XTLPkDsbp+vMFr2DeK\n/FNfiNEZxD4yTYiSAd22Bl3CqYlotYXh05pptZUkR4dQB0VDcb60S24BRhQHvAzf\nJxupb6j42elqRU++WyDmn+LIQeNRyUJEE2KgV3EIG8YFV7WXSc2w6Rw3oEd0IHFF\nLYGkfMMPCg3nbxfHElcv388CAwEAAQ==\n-----END PUBLIC KEY-----\n",
+  "passphrase_mongo": "81eee297a0b6a0602159",
+  "publicKey_mongo_BSI": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3Zrv5dgCsXPzIM+T30tC\nTdd7CQV7TDLI26HV/wHInHjw3KL0tm0ZclLm89Nuc64Ad5HAmObfbt0IYpdCtUHu\nFYkRMfMPkpVKbMhEPzPxpk7aiXByvxs+6A1Qk6xRtg1ZCJJOzXmv7asWELhJLFzl\nKTrjBBBrQrdgBLNBAlaMUG9njvAlwseP0O49o+1QJg+Ce3X0i5FnQRKQrcbR1E2Y\nnLgRaS98vwrm3XksHnvxrTNci2elNBZG56GVkbbvF+gOqyvWloCp48tyMvb4IAxt\nSs1mSh8KI1x9inV15p7riENiugeZOM3QVeH+7dLNYyyHc/jfY78md/uXkdbmrBnq\nrprw8IRrZrxGHLW05ZtbiZaozgGfp+0ChzM14N7/P29Kc+Tpi3BrE7a4iIDYR3gh\nlxCdYM/jufWoCZuP+UvdYDgpYfVkvf6O5v23ykAo020ce6VICjmwE3Ddb0i3JNDM\nNeAbrHJ06mCubjWbq/Jqk5TyDF79lKed+bxnAiiXnR5fhr8L5mKztBQh8qTzOhcc\nx2feHUhfwTOn/070OthsyyYR/AJHXARgf6RqEf0YwPrWrtUpPwRevRelegk1jhgv\nqrgg1BLxIXD4+VMvpxKktOO8zHxVsQcEd+heYcSsTy6o6A0cZ4WayjecNlg+AMSd\ndzBN8b2fv0oOFNUeXuEM7sUCAwEAAQ==\n-----END PUBLIC KEY-----\n",
+  "Nodeos": {
+    "ip": "localhost",
+    "port": 8888,
+    "version": "v1.8.1"
+  },
+  "Kesod": {
+    "ip": "localhost",
+    "port": 5555,
+    "version": "v1.8.1"
+  },
+  "MongoDB": {
+    "ip": "localhost",
+    "port": 27017,
+    "version": "v4.0.9"
+  },
+  "IPFS": {
+    "ip": "132.199.123.57",
+    "port": 5001
+  }
+}

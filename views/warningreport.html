@@ -1,0 +1,66 @@
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Report Incident</a>
+    </div>
+</nav>
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 200px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-default opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center">
+
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Global Warning</h3>
+                        </div>
+                        <div class="col-4 text-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="/warningreport" method="post">
+                        <h6 class="heading-small text-muted mb-4">Warning Contents</h6>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-address">Message</label>
+
+                                        <textarea rows="6" id="input-address" name="content"
+                                                  class="form-control form-control-alternative"
+                                                  placeholder=""
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-4">
+
+                                </div>
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <input class="btn btn-primary btn-lg float-right" type="submit"
+                                           value="Report warning">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

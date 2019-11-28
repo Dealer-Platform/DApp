@@ -1,0 +1,122 @@
+<div class="jumbotron text-center">
+    <h1>Einen Vorfall oder eine Datenanalyse melden</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Einen Vorfall melden</h3>
+            <p>
+                <form action="/report" method="post">
+                    <input id="itemType" name="itemType" type="hidden" value="incident" />
+                    <table>
+                        <tr>
+                            <td>* Titel</td>
+                            <td align="right"><input type="text" id="incidentTitle" name="incidentTitle" maxlength="256" placeholder="256 Zeichen erlaubt." required /></td>
+                        </tr>
+                        <tr>
+                            <td>* Beschreibung</td>
+                            <td align="right"><input type="text" id="incidentDesc" name="incidentDesc" maxlength="256" placeholder="256 Zeichen erlaubt." required /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">* Branche
+                                <select id="incidentIndustry" name="incidentIndustry" size=1 style="float:right;">
+                                    <option value="Gesundheit">Gesundheit</option>
+                                    <option value="Energie">Energie</option>
+                                    <option value="Staat und Verwaltung">Staat und Verwaltung</option>
+                                    <option value="Medien und Kultur">Medien und Kultur</option>
+                                    <option value="Finanz- und Versicherungswesen">Finanz- und Versicherungswesen</option>
+                                    <option value="Ernährung">Ernährung</option>
+                                    <option value="Informationstechnik und Telekommunikation">Informationstechnik und Telekommunikation</option>
+                                    <option value="Wasser">Wasser</option>
+                                    <option value="Transport und Verkehr">Transport und Verkehr</option>
+                                </select>
+                            </td>
+                        </tr>    
+                        <tr>
+                            <td>* Report nach §8 BSIG</td>
+                            <td align="right"><input type="checkbox" id="incidentBSIG" name="incidentBSIG" checked /></td>
+                            
+                        </tr> 
+                        <tr><td colspan="2">* Die Vorfallsdaten als STIX/VERIS/IODEF</td></tr>
+                        <tr><td colspan="2"><textarea rows = "5" cols = "50" name = "incidentData" placeholder="XML oder JSON erwartet." required ></textarea></td></tr>
+                        <tr>
+                            <td>Vorgänger</td>
+                            <td align="right"><input id="incidentAncestor" name="incidentAncestor" type="number" min=0  placeholder="0" /></td>
+                        </tr>
+                        <tr>
+                            <td>Preis</td>
+                            <td align="right"><input id="incidentPrice" name="incidentPrice" type="number" min=0  placeholder="0" /></td>
+                        </tr>
+                        <tr>
+                            <td>Belohnung</td>
+                            <td align="right"><input id="incidentReward" name="incidentReward" type="number" min=0  placeholder="0" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input class="btn btn-primary btn-lg" type="submit" value="Vorfall berichten"></td>
+                        </tr>
+                    </table>
+                </form>
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <h3>Eine Datenanalyse melden</h3>
+            <p>
+                <form action="/report" method="post">
+                    <input id="itemType" name="itemType" type="hidden" value="datamining" />
+                    <table>
+                        <tr>
+                            <td>* Titel</td>
+                            <td align="right"><input type="text" id="dataminingTitle" name="dataminingTitle" maxlength="256" placeholder="256 Zeichen erlaubt." required /></td>
+                        </tr>
+                        <tr>
+                            <td>* Beschreibung</td>
+                            <td align="right"><input type="text" id="dataminingDesc" name="dataminingDesc" maxlength="256" placeholder="256 Zeichen erlaubt." required /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">* Branche
+                                <select id="dataminingIndustry" name="dataminingIndustry" size=1 style="float:right;">
+                                    <option value="Gesundheit">Gesundheit</option>
+                                    <option value="Energie">Energie</option>
+                                    <option value="Staat und Verwaltung">Staat und Verwaltung</option>
+                                    <option value="Medien und Kultur">Medien und Kultur</option>
+                                    <option value="Finanz- und Versicherungswesen">Finanz- und Versicherungswesen</option>
+                                    <option value="Ernährung">Ernährung</option>
+                                    <option value="Informationstechnik und Telekommunikation">Informationstechnik und Telekommunikation</option>
+                                    <option value="Wasser">Wasser</option>
+                                    <option value="Transport und Verkehr">Transport und Verkehr</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>* Report nach §8 BSIG</td>
+                            <td align="right"><input type="checkbox" id="dataminingBSIG" name="dataminingBSIG" checked /></td>
+                            
+                        </tr> 
+                        <tr><td colspan="2">* Die Datenanalyse in einem geeignetem Format</td></tr>
+                        <tr><td colspan="2"><textarea rows = "5" cols = "50" name = "dataminingData" placeholder="XML oder JSON erwartet." required ></textarea></td></tr>
+                        <tr>
+                            <td>Vorgänger</td>
+                            <td align="right"><input id="dataminingAncestor" name="dataminingAncestor" type="number" min=0  placeholder="0" /></td>
+                        </tr>
+                        <tr>
+                            <td>Preis</td>
+                            <td align="right"><input id="dataminingPrice" name="dataminingPrice" type="number" min=0  placeholder="0" /></td>
+                        </tr>
+                        <tr>
+                            <td>Belohnung</td>
+                            <td align="right"><input id="dataminingReward" name="dataminingReward" type="number" min=0  placeholder="0" /></td>
+                        </tr>    
+                        <tr>
+                            <td colspan="2"><input class="btn btn-primary btn-lg" type="submit" value="Datenanalyse berichten"></td>
+                        </tr>
+                    </table>
+                </form>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="error"></p>
+        </div>
+    </div>
+</div>
