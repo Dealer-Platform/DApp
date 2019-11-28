@@ -55,6 +55,7 @@ module.exports = {
         $('.reportcount').html(reportcount);
         $('.analysiscount').html(analysiscount);
         $('.ordercount').html(ordercount);
+        $('#userlogo').attr("src", "../assets/img/theme/"+config.user+".jpg");
         mypage = mypage_dom.serialize();
 
         nav.deliver(res, mypage);

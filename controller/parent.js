@@ -1,7 +1,7 @@
 const fs = require('fs');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
-
+const config = require('../config.json');
 
 module.exports = {
 
@@ -20,17 +20,19 @@ module.exports = {
     template_footer() {
         return fs.readFileSync(global.viewsdir + 'template_footer.html', 'utf8');
     },
-    deliver(res, sitecontent, err, done) {
+    async deliver(res, sitecontent, err, done) {
         //res.send('<!DOCTYPE html><html lang="de">' + this.head() + '<body>' + this.navigation() + sitecontent + '</body></html>');
-        let footer = this.template_footer();
-        footer = this.handleMessage(footer, err, done);
+        let footer = this.handleMessage(this.template_footer(), err, done);
         let header = this.template_head();
 
+        header += `    <script>
+        $(document).ready(function () {
+            $('#currentuser').text("${config.user}");
+            $('#currentuserimage').attr("src", "assets/img/theme/${config.user}.jpg");
+        });
+        </script>`;
 
         res.send(header + sitecontent + footer);
-
-    },
-    renderUser(header){
 
     },
     handleMessage(tmpl, err, done) {
