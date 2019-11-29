@@ -14,7 +14,7 @@ const jquery = require("jquery");
 const app = express();
 const router = express.Router();
 const path = __dirname + '/views/';
-const port = config.port;
+const port = 80;
 
 //controller
 const c_home = require('./controller/home');
@@ -86,7 +86,7 @@ app.use(express.static(path));
 app.use('/', router);
 
 app.listen(port, function () {
-    console.log("webserver at localhost:8080, Don't forget to configure the config-emma.json!");
+    console.log("webserver at localhost:80, Don't forget to configure the config.json!");
 });
 
 
