@@ -14,7 +14,7 @@ const jquery = require("jquery");
 const app = express();
 const router = express.Router();
 const path = __dirname + '/views/';
-const port = 8080;
+const port = config.port;
 
 //controller
 const c_home = require('./controller/home');
