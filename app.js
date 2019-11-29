@@ -86,7 +86,7 @@ app.use(express.static(path));
 app.use('/', router);
 
 app.listen(port, function () {
-    console.log("webserver at localhost:8080, Don't forget to configure the config.json!");
+    console.log("webserver at localhost:8080, Don't forget to configure the config-emma.json!");
 });
 
 

@@ -1,21 +1,21 @@
 {
-  "user": "seller",
-   "privateKey_eos": "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
-   "publicKey_eos": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV",
+  "user": "isabelle",
+   "privateKey_eos": "5HuogGP58toNBLozGH44UD61aa5eDk3sgsrPdau1ie3hqotpz6m",
+   "publicKey_eos": "EOS8R4etQW1gXhUEpYyr1FbNdH9tuFRTL23s6LUrCKmCXoS9GZYW9",
    "Users": {
-    "Contract": {
+    "reporting": {
       "privatekey": "5JcBQz7rrG32HN5msnsK6c4mUK3kxD1y1EtPmgViJb9eRhHAMXh",
       "publickey": "EOS8FuqdckjMqjbFc8F1ieEoreP9DQaKjH7aZ9mQ6tB37xgxxfrp7"
     },
-    "Seller": {
-      "privatekey": "5KeYTtZokBYX8NkmNW2xd8b9ryHQLQo3nbL6M91MreCEnqHoxij",
-      "publickey": "EOS5xgacsRZtLTiS5sig3NgLvxKMuWQ2qrUzMi2hE4W9jtLvfA9Cc"
+    "peter": {
+      "privatekey": "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3",
+      "publickey": "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"
     },
-    "Buyer": {
+    "emma": {
       "privatekey": "5JLuwzZAwQqRc2EZh5MMmKkuaUwaVr45DeoqPteL7eUeVx5XG4d",
       "publickey": "EOS6qrgnBXUxASyjpT5S1qXuhCEN5CdapM9t3kBxmb9aetX5wJ66g"
     },
-    "Verifier": {
+    "isabelle": {
       "privatekey": "5HuogGP58toNBLozGH44UD61aa5eDk3sgsrPdau1ie3hqotpz6m",
       "publickey": "EOS8R4etQW1gXhUEpYyr1FbNdH9tuFRTL23s6LUrCKmCXoS9GZYW9"
     }
@@ -25,12 +25,12 @@
   "passphrase_mongo": "81eee297a0b6a0602159",
   "publicKey_mongo_BSI": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA3Zrv5dgCsXPzIM+T30tC\nTdd7CQV7TDLI26HV/wHInHjw3KL0tm0ZclLm89Nuc64Ad5HAmObfbt0IYpdCtUHu\nFYkRMfMPkpVKbMhEPzPxpk7aiXByvxs+6A1Qk6xRtg1ZCJJOzXmv7asWELhJLFzl\nKTrjBBBrQrdgBLNBAlaMUG9njvAlwseP0O49o+1QJg+Ce3X0i5FnQRKQrcbR1E2Y\nnLgRaS98vwrm3XksHnvxrTNci2elNBZG56GVkbbvF+gOqyvWloCp48tyMvb4IAxt\nSs1mSh8KI1x9inV15p7riENiugeZOM3QVeH+7dLNYyyHc/jfY78md/uXkdbmrBnq\nrprw8IRrZrxGHLW05ZtbiZaozgGfp+0ChzM14N7/P29Kc+Tpi3BrE7a4iIDYR3gh\nlxCdYM/jufWoCZuP+UvdYDgpYfVkvf6O5v23ykAo020ce6VICjmwE3Ddb0i3JNDM\nNeAbrHJ06mCubjWbq/Jqk5TyDF79lKed+bxnAiiXnR5fhr8L5mKztBQh8qTzOhcc\nx2feHUhfwTOn/070OthsyyYR/AJHXARgf6RqEf0YwPrWrtUpPwRevRelegk1jhgv\nqrgg1BLxIXD4+VMvpxKktOO8zHxVsQcEd+heYcSsTy6o6A0cZ4WayjecNlg+AMSd\ndzBN8b2fv0oOFNUeXuEM7sUCAwEAAQ==\n-----END PUBLIC KEY-----\n",
   "Nodeos": {
-    "ip": "localhost",
+    "ip": "132.199.120.4",
     "port": 8888,
     "version": "v1.8.1"
   },
   "Kesod": {
-    "ip": "localhost",
+    "ip": "132.199.120.4",
     "port": 5555,
     "version": "v1.8.1"
   },
