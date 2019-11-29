@@ -38,7 +38,7 @@ module.exports = {
             "json": true,
             "code": "reporting",
             "scope": "reporting",
-            "table": "warning",
+            "table": "notice",
             "reverse": true
         });
     },

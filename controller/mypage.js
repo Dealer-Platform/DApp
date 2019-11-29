@@ -56,6 +56,10 @@ module.exports = {
         $('.analysiscount').html(analysiscount);
         $('.ordercount').html(ordercount);
         $('#userlogo').attr("src", "../assets/img/theme/"+config.user+".jpg");
+
+        let user = await chainread.users_byUser(config.user);
+        $('#currentbalance').text(user.rows[0].balance);
+
         mypage = mypage_dom.serialize();
 
         nav.deliver(res, mypage);

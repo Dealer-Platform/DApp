@@ -2,6 +2,8 @@ const fs = require('fs');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
 const config = require('../config.json');
+const chainread = require('../logic/chainread');
+
 
 module.exports = {
 
@@ -25,9 +27,11 @@ module.exports = {
         let footer = this.handleMessage(this.template_footer(), err, done);
         let header = this.template_head();
 
+        let user = await chainread.users_byUser(config.user);
+
         header += `    <script>
         $(document).ready(function () {
-            $('#currentuser').text("${config.user}");
+            $('#currentuser').html("<p>${config.user} (${user.rows[0].balance} Tokens)</p>");
             $('#currentuserimage').attr("src", "assets/img/theme/${config.user}.jpg");
         });
         </script>`;
