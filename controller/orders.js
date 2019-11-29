@@ -103,7 +103,7 @@ module.exports = {
             let debug = "";
 
             let table_myOrders = '<table class="table align-items-center table-flush">';
-            table_myOrders += '<tr><th>#</th><th>Item</th><th>Orderdate</th><th>Seller</th><th>Received</th></tr>'
+            table_myOrders += '<tr><th>#</th><th>Item</th><th>Orderdate</th><th>Seller</th><th>Download</th></tr>'
             for (let i = 0; i < result.rows.length; i++) {
                 let row = result.rows[i];
 
@@ -122,11 +122,11 @@ module.exports = {
                 table_myOrders += '<td>' + row.timestamp + '</td>';
 
                 //ACTION BUTTON
-                if (row.finished == 0) {
-                    table_myOrders += '<td><div class="label-ok text-orange"><i class="ni ni-2x ni-watch-time"></i></i></div></td>';
-                } else {
-                    table_myOrders += '<td><div class="label-ok text-green"><i class="ni ni-2x ni-check-bold"></i></i></div></td>';
-                }
+                // if (row.finished == 0) {
+                //     table_myOrders += '<td><div class="label-ok text-orange"><i class="ni ni-2x ni-watch-time"></i></i></div></td>';
+                // } else {
+                //     table_myOrders += '<td><div class="label-ok text-green"><i class="ni ni-2x ni-check-bold"></i></i></div></td>';
+                // }
 
                 table_myOrders += '<td><a href="/download?user=' + row.seller + '&key=' + row.itemKey + '" class="btn btn-sm btn-primary">Download</a></td>';
                 table_myOrders += '</tr>';
