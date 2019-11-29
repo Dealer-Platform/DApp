@@ -3,11 +3,11 @@
    "privateKey_eos": "5JcBQz7rrG32HN5msnsK6c4mUK3kxD1y1EtPmgViJb9eRhHAMXh",
    "publicKey_eos": "EOS8FuqdckjMqjbFc8F1ieEoreP9DQaKjH7aZ9mQ6tB37xgxxfrp7",
    "Users": {
-    "Contract": {
+    "peter": {
       "privatekey": "5JcBQz7rrG32HN5msnsK6c4mUK3kxD1y1EtPmgViJb9eRhHAMXh",
       "publickey": "EOS8FuqdckjMqjbFc8F1ieEoreP9DQaKjH7aZ9mQ6tB37xgxxfrp7"
     },
-    "Seller": {
+    "emma": {
       "privatekey": "5KeYTtZokBYX8NkmNW2xd8b9ryHQLQo3nbL6M91MreCEnqHoxij",
       "publickey": "EOS5xgacsRZtLTiS5sig3NgLvxKMuWQ2qrUzMi2hE4W9jtLvfA9Cc"
     },
