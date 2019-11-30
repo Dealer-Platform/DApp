@@ -70,7 +70,7 @@ module.exports = {
                     table += '<td>' + row.reporter + '</td>';
 
                     //information
-                    table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '<br> Quality: ' + row.rating + '</div></td>';
+                    table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';
 
                     //description
                     table += '<td><div class="label-primary">' + row.description + '</div></td>';

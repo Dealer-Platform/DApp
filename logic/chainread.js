@@ -30,7 +30,8 @@ module.exports = {
             "code": "reporting",
             "scope": "reporting",
             "table": "item",
-            "reverse": true
+            "reverse": true,
+            "limit": 200
         });
     },
     async warnings() {
@@ -59,7 +60,8 @@ module.exports = {
             "json": true,
             "code": "reporting",
             "scope": "reporting",
-            "table": "order"
+            "table": "order",
+            "limit": 200
         });
     },
     async users() {
@@ -67,7 +69,8 @@ module.exports = {
             "json": true,
             "code": "reporting",
             "scope": "reporting",
-            "table": "users"
+            "table": "users",
+            "limit": 200
         });
     },
     async users_byUser(user) {
@@ -85,7 +88,17 @@ module.exports = {
             "json": true,
             "code": "reporting",
             "scope": "reporting",
-            "table": "voteassign"
+            "table": "voteassign",
+            "limit": 500
+        });
+    },
+    async votingspaginated(bound) {
+        return await rpc.get_table_rows({
+            "json": true,
+            "code": "reporting",
+            "scope": "reporting",
+            "table": "voteassign",
+            "limit": 200
         });
     },
     async votingbs() {
@@ -93,7 +106,8 @@ module.exports = {
             "json": true,
             "code": "reporting",
             "scope": "reporting",
-            "table": "votingb"
+            "table": "votingb",
+            "limit": 200
         });
     }
 

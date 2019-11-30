@@ -15,6 +15,9 @@ module.exports = {
             for (let i = 0; i < order.rows.length; i++) {
                 let row = order.rows[i];
 
+                if (row.buyer == config.user)
+                    continue;
+
                 if (orders[row.itemKey] == undefined) {
                     orders[row.itemKey] = [];
                 }
@@ -25,8 +28,7 @@ module.exports = {
 
 
         chainread.items().then(result => {
-                let table = "";
-
+                let element = "";
 
                 for (let i = 0; i < result.rows.length; i++) {
                     let row = result.rows[i];
@@ -34,20 +36,48 @@ module.exports = {
                     if (row.reporter != config.user)
                         continue;
 
-                    table += `<div class = "card-header border-0" > 
-                                <h3  class = "mb-0" style="display: inline;" > Incident: ${row.title} </h3> 
-                                <span class="label-ok">(Votes:   ${row.votes},  Accepts:   ${row.accepts},   Quality:   ${row.rating}  )</span>
-                                <br/>
-                                <small>${row.description}</small>
-                   
-                               </div>`;
 
-                    if (orders[row.key] == undefined) {
-                        table += '<div class="card-header border-0 text-orange">No sells yet</div>';
-                        continue;
-                    } else {
+                    let ordercount = 0;
+                    if (orders[row.key] != undefined) {
+                        ordercount = orders[row.key].length;
+                    }
 
-                        table += `<div class="table-responsive">
+
+                    element += '<div class="aspect-tab">';
+                    if (ordercount != 0) {
+                        element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
+                        element += '<label for="item-' + i + '" class="aspect-label"></label>';
+                    }
+
+                    element += `<div class="aspect-content ${ordercount > 0? '' : 'defcursor'}">
+                                <div class="aspect-info">
+                                    <div class="chart-pie negative over50">
+                                        <div>
+                                            <div class="first-fill"></div>
+                                            <div class="second-fill" style="transform: rotate(249deg)"></div>
+                                        </div>
+                                    </div><span class="aspect-name">Incident: ${row.title}</span>
+                                </div>
+                                <div class="aspect-stat">
+                                    <div class="all-opinions">
+                                        <span class="all-opinions-count">${ordercount}</span>
+                                        <span>sells</span>
+                                    </div>
+                                    <div>
+                                        <span class="positive-count">${row.accepts}</span>
+                                        <span class="negative-count">${row.votes - row.accepts}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aspect-tab-content">
+                                <div class="sentiment-wrapper">`;
+
+
+                    if (orders[row.key] != undefined) {
+                        element += '<div class="card-header border-0 text-orange">No sells yet</div>';
+
+
+                        element += `<div class="table-responsive">
                                <table class="table align-items-center table-flush">
                                 <tr>
                                     <th>Buyer</th>
@@ -59,24 +89,26 @@ module.exports = {
                         let rewardcount = 0;
                         for (let i = 0; i < orders[row.key].length; i++) {
                             let order = orders[row.key][i];
-                            table += '<tr>';
+                            element += '<tr>';
 
 
-                            table += `<td><div class="label-ok">${order.buyer}</div></td>`;
-                            table += `<td><div class="label-ok">${order.finished}</div></td>`;
-                            table += `<td><div class="label-ok">${order.timestamp}</div></td>`;
-                            table += `<td><div class="label-ok">${row.price}</div></td>`;
+                            element += `<td><div class="label-ok">${order.buyer}</div></td>`;
+                            element += `<td><div class="label-ok">${order.finished}</div></td>`;
+                            element += `<td><div class="label-ok">${order.timestamp}</div></td>`;
+                            element += `<td><div class="label-ok">${row.price}</div></td>`;
 
                             rewardcount += row.price;
 
-                            table += '</tr>';
+                            element += '</tr>';
                         }
-                        table += `   <tfoot><tr> <td class="bold">Sum</td><td></td><td></td> <td class="bold">${rewardcount}</td> </tr> </tfoot>`;
+                        element += `   <tfoot><tr> <td class="bold">Sum</td><td></td><td></td> <td class="bold">${rewardcount}</td> </tr> </tfoot>`;
 
 
-                        table += '</table>';
-                        table += '</div>';
+                        element += '</table>';
+                        element += '</div>';
                     }
+
+                    element += "</div></div></div>";
 
 
                 }
@@ -85,7 +117,7 @@ module.exports = {
                 //place table;
                 let view_dom = new jsdom.JSDOM(view);
                 let $ = jquery(view_dom.window);
-                $('.tablearea').html(table);
+                $('.tablearea').html(element);
                 view = view_dom.serialize();
 
                 //send page to user
