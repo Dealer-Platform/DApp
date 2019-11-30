@@ -193,7 +193,7 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
-.aspect-content:after {
+.toggleable:after {
     position: absolute;
     width: 24px;
     height: 60%;

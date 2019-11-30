@@ -55,6 +55,7 @@ module.exports = {
         $('.reportcount').html(reportcount);
         $('.analysiscount').html(analysiscount);
         $('.ordercount').html(ordercount);
+        $('.currusername').html(config.user);
         $('#userlogo').attr("src", "../assets/img/theme/"+config.user+".jpg");
 
         let user = await chainread.users_byUser(config.user);

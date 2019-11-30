@@ -49,14 +49,15 @@ module.exports = {
                         element += '<label for="item-' + i + '" class="aspect-label"></label>';
                     }
 
-                    element += `<div class="aspect-content ${ordercount > 0? '' : 'defcursor'}">
+                    element += `<div class="aspect-content ${ordercount > 0? 'toggleable' : 'defcursor'}">
                                 <div class="aspect-info">
                                     <div class="chart-pie negative over50">
                                         <div>
                                             <div class="first-fill"></div>
                                             <div class="second-fill" style="transform: rotate(249deg)"></div>
                                         </div>
-                                    </div><span class="aspect-name">Incident: ${row.title}</span>
+                                    </div>
+                                    <span class="aspect-name">${row.title}</span>
                                 </div>
                                 <div class="aspect-stat">
                                     <div class="all-opinions">
