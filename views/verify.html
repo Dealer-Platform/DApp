@@ -4,7 +4,8 @@
     </div>
 </nav>
 <!-- Header -->
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 200px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 200px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
     <span class="mask bg-gradient-default opacity-8"></span>
     <div class="container-fluid">
         <div class="header-body">
@@ -28,3 +29,30 @@
     </div>
 </div>
 
+<script>
+
+    function setInputFilter(textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+            textbox.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+            });
+        });
+    }
+
+
+    setInputFilter(document.getElementById("intLimitTextBox"), function (value) {
+        return /^\d*$/.test(value) && (value === "" || (parseInt(value) <= 5));
+    });
+
+
+
+</script>

@@ -102,7 +102,7 @@ module.exports = {
                         table += '<input type="hidden" name="item" value="' + row.key + '"/>';
                         table += '<input type="hidden" name="key" value="vote"/>';
                         table += '<label>Rating: </label>';
-                        table += '<input type="text" name="rating" value="1"/>';
+                        table += '<input type="number" name="rating" value="1" id="intLimitTextBox" style="margin-right: 10px;"/>';
                         table += '<input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject">';
                         table += '<input type="submit" name="approve"  class="btn btn-sm btn-success" value="Approve">';
                         table += '</form></td>';
