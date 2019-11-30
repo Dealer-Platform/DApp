@@ -91,7 +91,7 @@ app.listen(port, function () {
 
 
 //POST ENDPOINTS: MANAGE FORMS
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true, limit: '20mb'}));
 //Mange the report form
 app.post('/report', (req, res) => {
     c_report.handleRequest(req, res);
