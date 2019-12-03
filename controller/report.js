@@ -7,7 +7,7 @@ const fs = require('fs');
 const crypto = require('../logic/cryptofunctions');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
-
+const chainread = require('../logic/chainread');
 
 module.exports = {
 
@@ -36,9 +36,10 @@ module.exports = {
                 forsale = false;
 
 
+
             //encrypt data
             let fileKey = crypto.randomBytes(32);
-            let encryptedFileKey = crypto.encryptRSA(fileKey, config.publicKey_mongo);
+            let encryptedFileKey = crypto.encryptRSA(fileKey, config.publicKey_RSA);
             let {iv, encryptedData} = crypto.encryptAES(data, fileKey);
             let hashEncryptedData = crypto.hashSHA256(encryptedData);
 

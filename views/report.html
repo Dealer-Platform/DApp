@@ -111,31 +111,23 @@
                         <h6 class="heading-small text-muted mb-4">Pricing</h6>
                         <div class="pl-lg-4">
                             <div class="form-group">
-                                <label>Pricing</label>
+                                <label>Pricing</label><span id="verifierreward"> (Verifier reward: 1)</span>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-country">Price</label>
-                                            <input type="number" id="input-country" name="incidentPrice"
+                                            <label class="form-control-label" for="input-price">Price</label>
+                                            <input type="number" id="input-price" name="incidentPrice"
                                                    class="form-control form-control-alternative" placeholder="Price"
                                                    value="12">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="input-country">Verify-reward</label>
-                                            <input type="number" id="input-postal-code" name="incidentReward"
-                                                   class="form-control form-control-alternative" placeholder=""
-                                                   value="1">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
 
-                                    </div>
+
+                                    <div class="col-lg-4"></div>
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
-                                        <input class="btn btn-primary btn-lg float-right" type="submit"
-                                               value="Report analysis">
+                                        <input class="btn btn-primary btn-lg float-right" type="submit" id="submitreport"
+                                               value="Report analysis (cost: 3)">
                                     </div>
                                 </div>
 
@@ -150,6 +142,17 @@
     </div>
 
 </div>
+
+<script>
+    $('#input-price').change(function(){
+        var reward = Math.trunc($('#input-price').val()/10);
+       $('#verifierreward').text(" (Reward per verifier: "+ reward+")");
+       $('#submitreport').val("Report analysis (cost: "+reward*3+")");
+    });
+
+
+</script>
+
 <style>
 
     /*Checkboxes styles*/

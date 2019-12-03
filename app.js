@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 global.viewsdir = __dirname + "/views/";
+const crypto = require('./logic/cryptofunctions');
 
 //eosjs
 // const { Api, JsonRpc, RpcError } = require('eosjs');
@@ -32,7 +33,7 @@ const c_warnings = require('./controller/warnings');
 const c_warningreport = require('./controller/warningreport');
 
 router.use(function (req, res, next) {
-     console.log('/' + req.method);
+    console.log('/' + req.method);
     next();
 });
 
@@ -71,13 +72,13 @@ router.get('/mypage', function (req, res) {
 router.get('/about', function (req, res) {
     c_about.getPageAbout(res);
 });
-router.get('/download', function(req, res, next) {
+router.get('/download', function (req, res, next) {
     c_download.handleRequest(req, res, next)
 });
-router.get('/warnings', function(req, res, next) {
+router.get('/warnings', function (req, res, next) {
     c_warnings.loadPage(res)
 });
-router.get('/warningreport', function(req, res, next) {
+router.get('/warningreport', function (req, res, next) {
     c_warningreport.loadPage(res)
 });
 
@@ -103,6 +104,9 @@ app.post('/mypage', (req, res) => {
 app.post('/verify', (req, res) => {
     c_verify.handleRequest(req, res);
 });
+app.post('/view', (req, res) => {
+    c_view.handleRequest(req, res);
+});
 //manage blame form
 app.post('/blame', (req, res) => {
     c_blame.handleRequest(req, res);
@@ -127,58 +131,10 @@ app.post('/warnings', (req, res) => {
 
 //doStuff();
 
-async function doStuff(){
-    let itemId = "abc";
-    let fileKey = {hash: "0abdef", fileKeys: [{ id: "abc", file: "def"},{ id: "abc2", file: "def2"}]}
-    // let fileKeys = 	{
-    //     path: "/keys/def", // The file path
-    //     content: Buffer.from(JSON.stringify(fileKey))
-    // };
-    // await ipfs.files.mkdir("/user/keys", { parents: true })
-    // await ipfs.files.mkdir("/user/items");
 
-    // let user = await ipfs.files.stat("/user");
-    // console.log(user);
-    // let res = await ipfs.name.publish(user.hash)
-    // console.log(res)
 
-    //let res = await ipfs2.ls('QmdusHdrWSgSrm43AK9G2KpWsWV2m4Xe4THjn1mvqz2mYV/items')
-    //let files = res.map(f => f.name); //extract list of hashes
-    //
-    // let items = [{_id: 'abc', fruit: "grape"},{_id: 'def', fruit: "grape"}]
-    // let keys = [{_id: 'abc', fileKeys: [{key: "a"}, {key:"b"}]}, {_id: 'abce', fileKeys: [{key: "a"}, {key:"b"}]}]
-    // keys.forEach(key => {
-    //     let item = items.find(item => {
-    //         return key._id === item._id;
-    //     });
-    //     if(item) item.fileKeys = key.fileKeys;
-    // });
-    //
-    // console.log(items)
-    //console.log(JSON.parse(file[0].content.toString()));
 
-    // let res = await ipfs.files.ls(path);
-    // console.log(res)
 
-    // let stats = await ipfs.files.stat(path).catch((err) => {
-    //     ipfs.files.mkdir(path, {parents: true}).then(() => {
-    //         return ipfs.files.stat(path);
-    //     });
-    // }).then((res) => { console.log(res) });
 
-    //await ipfs.files.write("/user/keys/" + itemId,Buffer.from(JSON.stringify(fileKey)), {create: true})
-    //let result = await ipfs.files.stat("/user"); console.log(result);
-    // let result = await ipfs.files.stat("/usr", (err, res) => {
-    //    if(err) console.log("hi");
-    //    else console.log(res);
-    // });
-    // console.log(result)
-    // result = await ipfs.files.stat("/keys"); console.log(result);
-}
-// let res = ipfs.files.read("/test", (error, buf) => {
-//     console.log(buf.toString('utf8'))
-// })
-// ipfs.files.write("/test", Buffer.from('Hello, world 2!'))
-// res = ipfs.files.read("/test", (error, buf) => {
-//     console.log(buf.toString('utf8'))
-// })
+
+

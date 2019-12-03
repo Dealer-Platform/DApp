@@ -31,8 +31,10 @@ module.exports = {
     },
 
     encryptRSA(toEncrypt, publicKey) {
+        let key = "-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----\n";
+
         const buffer = Buffer.from(toEncrypt, 'utf8')
-        const encrypted = crypto.publicEncrypt(publicKey, buffer)
+        const encrypted = crypto.publicEncrypt(key, buffer)
         return encrypted.toString('base64')
     },
 

@@ -7,6 +7,22 @@ const chainread = require('../logic/chainread');
 
 module.exports = {
 //view database with colored buttons and lables. With the encryption of the threat intelligence data.
+
+    handleRequest(req, res) {
+        try {
+
+
+
+
+
+        } catch
+            (e) {
+            this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
+        }
+        this.loadPage(res);
+    },
+
+
     async loadPage(res, err, done) {
         let view = nav.load(site);
 
@@ -28,6 +44,9 @@ module.exports = {
 
 
         chainread.items().then(result => {
+
+                let unfinishedItems = [];
+
                 let element = "";
 
                 for (let i = 0; i < result.rows.length; i++) {
@@ -49,7 +68,7 @@ module.exports = {
                         element += '<label for="item-' + i + '" class="aspect-label"></label>';
                     }
 
-                    element += `<div class="aspect-content ${ordercount > 0? 'toggleable' : 'defcursor'}">
+                    element += `<div class="aspect-content ${ordercount > 0 ? 'toggleable' : 'defcursor'}">
                                 <div class="aspect-info">
                                     <div class="chart-pie negative over50">
                                         <div>
@@ -82,7 +101,7 @@ module.exports = {
                                <table class="table align-items-center table-flush">
                                 <tr>
                                     <th>Buyer</th>
-                                    <th>Item Received</th>
+                                    <th>Key Received</th>
                                     <th>Buy Date</th>
                                     <th>Reward</th>
                                 </tr>`;
@@ -97,6 +116,11 @@ module.exports = {
                             element += `<td><div class="label-ok">${order.finished}</div></td>`;
                             element += `<td><div class="label-ok">${order.timestamp}</div></td>`;
                             element += `<td><div class="label-ok">${row.price}</div></td>`;
+
+                            if (order.finished == 0) {
+                                unfinishedItems.push(order.key);
+                            }
+
 
                             rewardcount += row.price;
 
@@ -114,11 +138,19 @@ module.exports = {
 
                 }
 
-
                 //place table;
                 let view_dom = new jsdom.JSDOM(view);
                 let $ = jquery(view_dom.window);
                 $('.tablearea').html(element);
+
+                if (unfinishedItems.length > 0) {
+                    $('#sendkeys').html(`
+                     <form action="/view" method="post">
+                        <input type="submit" value="Unlock ${unfinishedItems.length} reports for buyers" class="btn btn-primary btn-sm"/>
+                     </form>
+                    `);
+                }
+
                 view = view_dom.serialize();
 
                 //send page to user

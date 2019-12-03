@@ -14,42 +14,7 @@ const chainread = require('../logic/chainread');
 module.exports = {
 
     handleRequest(req, res) {
-
-        try {
-            let content = req.body.content;
-
-
-            if (forsale != undefined)
-                forsale = true;
-            else
-                forsale = false;
-
-
-            //encrypt data
-            let fileKey = crypto.randomBytes(32);
-            let encryptedFileKey = crypto.encryptRSA(fileKey, config.publicKey_mongo);
-            let {iv, encryptedData} = crypto.encryptAES(data, fileKey);
-            let hashEncryptedData = crypto.hashSHA256(encryptedData);
-
-
-            let report_db_promise = db.write_report(encryptedData, hashEncryptedData, encryptedFileKey, iv, itemType, title, description, industry);
-
-            report_db_promise.then(() => {
-
-                let report_chain_promise = chainwrite.report(hashEncryptedData, price, reward, title, description, isreport, forsale);
-                report_chain_promise.then(() => {
-                    this.loadPage(res, false, true);
-
-                }, (err) => {
-                    this.loadPage(res, err);
-                });
-            }, function (err) {
-                this.loadPage(res, err);
-            });
-
-        } catch (e) {
-            this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
-        }
+        this.loadPage(res, false, true);
     },
 
 
