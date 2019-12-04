@@ -100,7 +100,7 @@ module.exports = {
             blocksBehind: 3,
             expireSeconds: 30,
         });
-    }, report(hash, price, reward, title, description, report, sale) {
+    }, report(hash, price, title, description, report, sale) {
         return api.transact({
             actions: [{
                 account: 'reporting',
@@ -113,7 +113,6 @@ module.exports = {
                     reporter: config.user,
                     hash: hash,
                     price: price,
-                    reward: reward,
                     description: description,
                     title: title,
                     report: report,

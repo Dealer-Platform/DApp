@@ -5,16 +5,6 @@ const rpc = new JsonRpc('http://' + config.Nodeos.ip + ':' + config.Nodeos.port,
 
 module.exports = {
 
-    //CHAIN READ
-    async applications() {
-        return await rpc.get_table_rows({
-            "json": true,
-            "code": "reporting",
-            "scope": "reporting",
-            "table": "application",
-            "limit": 100
-        });
-    },
     async blamings() {
         return await rpc.get_table_rows({
             "json": true,
@@ -91,25 +81,6 @@ module.exports = {
             "table": "voteassign",
             "limit": 500
         });
-    },
-    async votingspaginated(bound) {
-        return await rpc.get_table_rows({
-            "json": true,
-            "code": "reporting",
-            "scope": "reporting",
-            "table": "voteassign",
-            "limit": 200
-        });
-    },
-    async votingbs() {
-        return await rpc.get_table_rows({
-            "json": true,
-            "code": "reporting",
-            "scope": "reporting",
-            "table": "votingb",
-            "limit": 200
-        });
     }
-
 
 };
