@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 global.viewsdir = __dirname + "/views/";
 const crypto = require('./logic/cryptofunctions');
+const localdb = require('./logic/localdb');
 
 //eosjs
 // const { Api, JsonRpc, RpcError } = require('eosjs');
@@ -125,11 +126,22 @@ app.post('/warningreport', (req, res) => {
 app.post('/warnings', (req, res) => {
     c_warnings.handleRequest(req, res);
 });
+
+localdb.initKeystoreFile();
+
+
 // var ipfsClient = require('ipfs-http-client')
 // const ipfs = ipfsClient({ host: '132.199.123.57', port: '5001', protocol: 'http' })
 // const ipfs2 = ipfsClient({ host: '132.199.123.236', port: '5001', protocol: 'http' })
 
-//doStuff();
+
+localdb.readKeyPairFromDisk(17, function(res){
+
+   console.log(res);
+});
+
+
+
 
 
 

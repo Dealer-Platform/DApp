@@ -1,13 +1,11 @@
 const config = require('../config.json');
 const template = require('./parent');
-//const db = require('../logic/mongodb');
 const db = require('../logic/ipfs')
 const chainwrite = require('../logic/chainwrite');
 const fs = require('fs');
 const crypto = require('../logic/cryptofunctions');
-const jsdom = require("jsdom");
-const jquery = require("jquery");
 const chainread = require('../logic/chainread');
+const localdb = require('../logic/localdb');
 
 module.exports = {
 
@@ -29,6 +27,8 @@ module.exports = {
             //encrypt data
             let fileKey = crypto.randomBytes(32);
             let encryptedFileKey = crypto.encryptRSA(fileKey, config.publicKey_RSA);
+
+
             let {iv, encryptedData} = crypto.encryptAES(data, fileKey);
             let hashPayload = crypto.hashSHA256(data);
 
@@ -64,11 +64,13 @@ module.exports = {
                                 let userentry = chainread.users_byUser(currentvoter);
                                 userentry.then(function (user) {
                                     //TODO -- einmal für jeden Publickey ins ipfs laden
-                                    console.log(user.rows[0].publicKey);
+                                    // console.log(user.rows[0].publicKey);
+                                    // console.log(itemkey);
+                                     console.log(fileKey);
+                                    localdb.writeItemKeyPairToDisk(itemkey, fileKey);
 
                                 });
                             });
-
 
 
                             this.loadPage(res, false, true);

@@ -11,8 +11,23 @@ module.exports = {
     handleRequest(req, res) {
         try {
 
+            chainread.orders().then(order => {
+                let orders = [];
+                for (let i = 0; i < order.rows.length; i++) {
+                    let row = order.rows[i];
+                    if (row.buyer == config.user)
+                        continue;
+
+                    if (orders[row.itemKey] == undefined) {
+                        orders[row.itemKey] = [];
+                    }
+                    orders[row.itemKey].push(row);
+                }
 
 
+
+
+            });
 
 
         } catch
