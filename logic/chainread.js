@@ -63,6 +63,20 @@ module.exports = {
             "limit": 200
         });
     },
+    async userspks(fnc) {
+        let pkarr = [];
+
+        let userlist = this.users();
+        await userlist.then((users) => {
+
+            for (let i = 0; i < users.rows.length; i++) {
+                let row = users.rows[i];
+                pkarr[row.user] = row.publicKey;
+            }
+
+            fnc(pkarr);
+        });
+    },
     async users_byUser(user) {
         return await rpc.get_table_rows({
             "json": true,

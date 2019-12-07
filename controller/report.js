@@ -27,8 +27,6 @@ module.exports = {
             //encrypt data
             let fileKey = crypto.randomBytes(32);
             let encryptedFileKey = crypto.encryptRSA(fileKey, config.publicKey_RSA);
-
-
             let {iv, encryptedData} = crypto.encryptAES(data, fileKey);
             let hashPayload = crypto.hashSHA256(data);
 

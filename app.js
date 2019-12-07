@@ -135,9 +135,10 @@ localdb.initKeystoreFile();
 // const ipfs2 = ipfsClient({ host: '132.199.123.236', port: '5001', protocol: 'http' })
 
 
+
 localdb.readKeyPairFromDisk(17, function(res){
 
-   console.log(res);
+    // console.log(res);
 });
 
 

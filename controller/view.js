@@ -4,6 +4,10 @@ const jsdom = require("jsdom");
 const jquery = require("jquery");
 const site = "view";
 const chainread = require('../logic/chainread');
+const chainwrite = require('../logic/chainwrite');
+const localdb = require('../logic/localdb');
+const crypto = require('../logic/cryptofunctions');
+
 
 module.exports = {
 //view database with colored buttons and lables. With the encryption of the threat intelligence data.
@@ -18,13 +22,40 @@ module.exports = {
                     if (row.buyer == config.user)
                         continue;
 
-                    if (orders[row.itemKey] == undefined) {
-                        orders[row.itemKey] = [];
+                    //add uncomplete items
+                    if (row.bkeyupload == 0) {
+                        if (orders[row.itemKey] == undefined) {
+                            orders[row.itemKey] = [];
+                        }
+                        orders[row.itemKey].push(row);
                     }
-                    orders[row.itemKey].push(row);
                 }
 
 
+                localdb.readAllKeyPairsFromDisk((keysFromDisk) => {
+
+                    chainread.userspks((pks) => {
+
+                        for (let i = 0; i < orders.length; i++) {
+                            if(orders[i] == undefined)
+                                continue;
+
+                            let order = orders[i][0];
+
+                            console.log("Item:" + order.itemKey + " Encryptionkey: ");
+                            console.log(keysFromDisk[order.itemKey]);
+                            console.log("Publickey: " + pks[order.buyer]);
+
+                            //TODO upload keys for each buyer to IPFS
+
+                            chainwrite.keyupload(order.key);
+
+                        }
+
+                        this.loadPage(res);
+                    });
+
+                });
 
 
             });
@@ -34,7 +65,7 @@ module.exports = {
             (e) {
             this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
         }
-        this.loadPage(res);
+
     },
 
 
@@ -117,6 +148,7 @@ module.exports = {
                                 <tr>
                                     <th>Buyer</th>
                                     <th>Key Received</th>
+                                    <th>Key Sent</th>
                                     <th>Buy Date</th>
                                     <th>Reward</th>
                                 </tr>`;
@@ -129,10 +161,11 @@ module.exports = {
 
                             element += `<td><div class="label-ok">${order.buyer}</div></td>`;
                             element += `<td><div class="label-ok">${order.finished}</div></td>`;
+                            element += `<td><div class="label-ok">${order.bkeyupload}</div></td>`;
                             element += `<td><div class="label-ok">${order.timestamp}</div></td>`;
                             element += `<td><div class="label-ok">${row.price}</div></td>`;
 
-                            if (order.finished == 0) {
+                            if (order.bkeyupload == 0) {
                                 unfinishedItems.push(order.key);
                             }
 

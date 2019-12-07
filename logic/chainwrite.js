@@ -1,10 +1,10 @@
 const config = require('../config');
 const fetch = require('node-fetch');
-const { TextEncoder, TextDecoder } = require('util');
+const {TextEncoder, TextDecoder} = require('util');
 const {Api, JsonRpc, RpcError} = require('eosjs');
 const {JsSignatureProvider} = require('eosjs/dist/eosjs-jssig');
 const signatureProvider = new JsSignatureProvider([config.privateKey_eos]);
-const rpc = new JsonRpc('http://' + config.Nodeos.ip + ':' + config.Nodeos.port, { fetch });
+const rpc = new JsonRpc('http://' + config.Nodeos.ip + ':' + config.Nodeos.port, {fetch});
 const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
 
 module.exports = {
@@ -276,7 +276,26 @@ module.exports = {
             blocksBehind: 3,
             expireSeconds: 30,
         });
-    }
+    },
+    keyupload(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'keyupload',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    sender: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
+    },
 
 
 };
