@@ -114,14 +114,12 @@ module.exports = {
         return item;
     },
 
-    async write_report(encryptedData, hashEncryptedData, encryptedFileKey, init_vector, itemType, title, description, industry, encryptedFileKeyBSI) {
+    async write_report(encryptedData, hashEncryptedData, encryptedFileKey, init_vector, itemType, title, description, industry) {
         let incident =  {
             _id:hashEncryptedData, encryptedData:encryptedData, init_vector:init_vector,
             itemType:itemType, title:title, description:description, industry:industry
         };
         let fileKey = { _id: hashEncryptedData, fileKeys: [{ encryptedFileKey:encryptedFileKey, user:config.user }] };
-
-        if(encryptedFileKeyBSI) fileKey.fileKeys.push({ encryptedFileKey:encryptedFileKeyBSI, user:"bsi" });
 
         await Promise.all([
             writeJson(itemsPath + hashEncryptedData, incident),
@@ -131,13 +129,17 @@ module.exports = {
         await updateFeed();
     },
 
-    async write_addEncryptedFileKey(hash, user, encryptedFileKey) {
-        //update id (hash) with encryptedFileKey
-        let entry = {encryptedFileKey: encryptedFileKey, user: user};
+  /**
+   * Adds encrypted file keys to IPFS
+   * @param hash
+   * @param keys array of objects with user, sender, encryptedFileKey
+   * @returns {Promise<void>}
+   */
+    async write_addEncryptedFileKeys(hash, keys) {
         let path = keysPath + hash;
 
         let json = await readJsonFile(path);
-        json.fileKeys.push(entry);
+        json.fileKeys = json.fileKeys.concat(keys);
 
         await writeJson(path, json);
         await updateFeed();

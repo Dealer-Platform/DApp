@@ -16,7 +16,6 @@ module.exports = {
             let description = req.body.incidentDesc;
             let data = req.body.incidentData;
             let price = req.body.incidentPrice;
-            let reward = req.body.incidentReward;
             let industry = req.body.incidentIndustry;
             let itemType = req.body.itemType;
 
@@ -56,20 +55,20 @@ module.exports = {
                                     voters.push(voting.rows[i].voter);
                                 }
                             }
+                            //voters.push("bsi");
 
-                            //find public keys for user
-                            voters.forEach(currentvoter => {
-                                let userentry = chainread.users_byUser(currentvoter);
-                                userentry.then(function (user) {
-                                    //TODO -- einmal für jeden Publickey ins ipfs laden
-                                    // console.log(user.rows[0].publicKey);
-                                    // console.log(itemkey);
-                                     console.log(fileKey);
-                                    localdb.writeItemKeyPairToDisk(itemkey, fileKey);
-
-                                });
+                            //get public keys for users
+                            Promise.all(voters.map(chainread.users_byUser)).then((res) => {
+                                let fileKeys = [];
+                                res.forEach((user) => {
+                                   let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
+                                   fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
+                                   //RSA encrypt fileKey with publicKey
+                                   localdb.writeItemKeyPairToDisk(itemkey, fileKey);
+                                })
+                                //upload fileKeys
+                                db.write_addEncryptedFileKeys(hashPayload, fileKeys);
                             });
-
 
                             this.loadPage(res, false, true);
                         });
@@ -86,6 +85,7 @@ module.exports = {
             });
 
         } catch (e) {
+            console.log(e)
             this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
         }
     },
