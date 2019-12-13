@@ -58,16 +58,17 @@ module.exports = {
                                     assignedUsers.push(voting.rows[i].voter);
                                 }
                             }
-                            assignedUsers.push("BSI");
-
+                            if (isreport){
+                                assignedUsers.push("BSI");
+                            }
 
                             //get public keys for users
                             Promise.all(assignedUsers.map(chainread.users_byUser)).then((res) => {
                                 let fileKeys = [];
                                 res.forEach((user) => {
-                                   let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
-                                   fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
-                                   //RSA encrypt fileKey with publicKey
+                                    let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
+                                    fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
+                                    //RSA encrypt fileKey with publicKey
                                 })
                                 //upload fileKeys
                                 db.write_addEncryptedFileKeys(hashPayload, fileKeys);
