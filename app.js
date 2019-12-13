@@ -24,7 +24,6 @@ const c_report = require('./controller/report');
 const c_marketplace = require('./controller/marketplace');
 const c_view = require('./controller/view');
 const c_orders = require('./controller/orders');
-const c_orderarchive = require('./controller/orderarchive');
 const c_verify = require('./controller/verify');
 const c_blame = require('./controller/blame');
 const c_mypage = require('./controller/mypage');
@@ -57,9 +56,6 @@ router.get('/view', function (req, res) {
 });
 router.get('/orders', function (req, res) {
     c_orders.loadPage(res);
-});
-router.get('/orderarchive', function (req, res) {
-    c_orderarchive.loadPage(res);
 });
 router.get('/verify', function (req, res) {
     c_verify.loadPage(res);
