@@ -44,7 +44,7 @@ module.exports = {
         const buffer = Buffer.from(toDecrypt, 'base64');
         const decrypted = crypto.privateDecrypt(
             {
-                key: privateKey,
+                key: key,
                 passphrase: config.passphrase_RSA,
             },
             buffer
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     calculateKeyPair(passphrase) {
-        const {generateKeyPairSync}  = require('logic/cryptofunctions');
+        const {generateKeyPairSync}  = require('crypto');
         return generateKeyPairSync('rsa', {
             modulusLength: 4096,
             publicKeyEncoding: {

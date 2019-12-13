@@ -5,9 +5,8 @@ const config = require('../config');
 
 async function getAndDecrypt(chainUser, hash){
   let item = await db.read_item_byID(chainUser, hash)
-  //let ownFileKey = item.fileKeys.fileKeys.filter(f => f.user === config.user)[0].encryptedFileKey;
-  let ownFileKey = item.fileKeys.fileKeys[0].encryptedFileKey;
-  let key = crypto.decryptRSA(ownFileKey, config.privateKey_mongo)
+  let ownFileKey = item.fileKeys.fileKeys.filter(f => f.user === config.user)[0].encryptedFileKey;
+  let key = crypto.decryptRSA(ownFileKey, config.privateKey_RSA)
   return crypto.decryptAES(item.encryptedData, key, item.init_vector);
 }
 

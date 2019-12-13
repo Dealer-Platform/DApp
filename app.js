@@ -1,7 +1,5 @@
 const express = require('express');
-const fs = require('fs');
 global.viewsdir = __dirname + "/views/";
-const crypto = require('./logic/cryptofunctions');
 const localdb = require('./logic/localdb');
 
 //eosjs
@@ -125,6 +123,9 @@ app.post('/warnings', (req, res) => {
 
 localdb.initKeystoreFile();
 
+// let pass = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// console.log(pass)
+// console.log(crypto.calculateKeyPair(pass))
 
 // var ipfsClient = require('ipfs-http-client')
 // const ipfs = ipfsClient({ host: '132.199.123.57', port: '5001', protocol: 'http' })
