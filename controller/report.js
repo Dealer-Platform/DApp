@@ -47,24 +47,27 @@ module.exports = {
                                 break;
                             }
                         }
+
+                        localdb.writeItemKeyPairToDisk(itemkey, fileKey);
+
                         //find voting assignments for current item
                         chainread.votings().then(voting => {
-                            let voters = [];
+                            let assignedUsers = [];
                             for (let i = 0; i < voting.rows.length; i++) {
                                 if (voting.rows[i].itemKey == itemkey) {
-                                    voters.push(voting.rows[i].voter);
+                                    assignedUsers.push(voting.rows[i].voter);
                                 }
                             }
-                            //voters.push("bsi");
+                            assignedUsers.push("BSI");
+
 
                             //get public keys for users
-                            Promise.all(voters.map(chainread.users_byUser)).then((res) => {
+                            Promise.all(assignedUsers.map(chainread.users_byUser)).then((res) => {
                                 let fileKeys = [];
                                 res.forEach((user) => {
                                    let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
                                    fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
                                    //RSA encrypt fileKey with publicKey
-                                   localdb.writeItemKeyPairToDisk(itemkey, fileKey);
                                 })
                                 //upload fileKeys
                                 db.write_addEncryptedFileKeys(hashPayload, fileKeys);
