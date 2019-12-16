@@ -2,30 +2,30 @@ const fs = require('fs');
 const config = require('../config.json');
 
 module.exports = {
-    readAllKeyPairsFromDisk(fnc) {
+    async readAllKeyPairsFromDisk() {
         var result = {};
         var localstorage = "";
 
-        fs.readFile(config.key_storage, (err, data) => {
-            if (!err) {
-                try {
-                    localstorage = JSON.parse(data);
+        return new Promise((resolve, reject) => {
+            fs.readFile(config.key_storage, (err, data) => {
+                if (!err) {
+                    try {
+                        localstorage = JSON.parse(data);
 
 
-                    Object.keys(localstorage).forEach(key => {
-                        result[key] = this.stringToBuffer(localstorage[key].toString());
-                    });
+                        Object.keys(localstorage).forEach(key => {
+                            result[key] = this.stringToBuffer(localstorage[key].toString());
+                        });
 
-                    fnc(result);
-                } catch (e) {
-                    console.log(e);
+                        resolve(result);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                } else {
+                    reject(err);
                 }
-            } else {
-                console.error(err);
-            }
-
-
-        });
+            });
+        })
     },
     readKeyPairFromDisk(itemKey, fnc) {
         var localstorage = "";

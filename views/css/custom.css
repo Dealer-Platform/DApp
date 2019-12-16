@@ -394,3 +394,7 @@ body {
 .defcursor{
     cursor: auto !important;
 }
+
+.inline {
+    display: inline;
+}

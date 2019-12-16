@@ -54,6 +54,18 @@ module.exports = {
             "limit": 200
         });
     },
+    async orders_byOrder(key){
+        return await rpc.get_table_rows({
+            "json": true,
+            "code": "reporting",
+            "scope": "reporting",
+            "table": "order",
+            "lower_bound": key,
+            "upper_bound": key,
+            "limit": 1,
+            "reverse": true
+        });
+    },
     async users() {
         return await rpc.get_table_rows({
             "json": true,
@@ -63,19 +75,17 @@ module.exports = {
             "limit": 200
         });
     },
-    async userspks(fnc) {
+    async userspks() {
         let pkarr = [];
 
-        let userlist = this.users();
-        await userlist.then((users) => {
+        let users = await this.users();
 
-            for (let i = 0; i < users.rows.length; i++) {
-                let row = users.rows[i];
-                pkarr[row.user] = row.publicKey;
-            }
+        for (let i = 0; i < users.rows.length; i++) {
+            let row = users.rows[i];
+            pkarr[row.user] = row.publicKey;
+        }
 
-            fnc(pkarr);
-        });
+        return pkarr;
     },
     async users_byUser(user) {
         return await rpc.get_table_rows({

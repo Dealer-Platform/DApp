@@ -1,5 +1,5 @@
 const config = require('../config');
-var ipfsClient = require('ipfs-http-client')
+var ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({
     host: config.IPFS.ip,
     port: config.IPFS.port,
@@ -64,7 +64,7 @@ async function resolveAndPin(ipns){
  */
 async function updateFeed(){
     let stat = await ipfs.files.stat("/user");
-    console.log('directory: ' + stat.hash)
+    console.log('directory: ' + stat.hash);
     return Promise.all([
         ipfs.name.publish(stat.hash),
         ipfs.pin.add(stat.hash)
@@ -79,7 +79,7 @@ async function updateFeed(){
 async function getUserItems(user){
     let dir = resolveAndPin(user.ipns);
     let items = await readJsonDir(dir + '/items/');
-    let keys = await readJsonDir(dir + '/keys/')
+    let keys = await readJsonDir(dir + '/keys/');
 
     //add each key to items by _id
     keys.forEach(key => {
@@ -98,6 +98,20 @@ module.exports = {
     async read_item() {
         return getUserItems(config.user);
     },
+
+    async read_own_key(hash){
+        let result = await readJsonFile(keysPath + hash);
+        let key = result.fileKeys.find(key => key.user === config.user);
+        return key.encryptedFileKey;
+    },
+
+    async read_key(user, hash){
+        let dir = await resolveAndPin(user.ipns);
+        let result = await readJson(dir + '/keys/' + hash);
+        let key = result.fileKeys.find(key => key.user === config.user);
+        return key.encryptedFileKey;
+    },
+
 
     async read_all_items() {
         let users = (await chain.users()).rows;

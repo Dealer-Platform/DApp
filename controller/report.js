@@ -1,6 +1,6 @@
 const config = require('../config.json');
 const template = require('./parent');
-const db = require('../logic/ipfs')
+const db = require('../logic/ipfs');
 const chainwrite = require('../logic/chainwrite');
 const fs = require('fs');
 const crypto = require('../logic/cryptofunctions');
@@ -9,7 +9,7 @@ const localdb = require('../logic/localdb');
 
 module.exports = {
 
-    handleRequest(req, res) {
+    async handleRequest(req, res) {
 
         try {
             let title = req.body.incidentTitle;
@@ -30,66 +30,53 @@ module.exports = {
             let hashPayload = crypto.hashSHA256(data);
 
             //write report to IPFS
-            let report_db_promise = db.write_report(encryptedData, hashPayload, encryptedFileKey, iv, itemType, title, description, industry);
-            report_db_promise.then(() => {
+            let report_db_promise = await db.write_report(encryptedData, hashPayload, encryptedFileKey, iv, itemType, title, description, industry);
 
-                //write report to chain
-                let report_chain_promise = chainwrite.report(hashPayload, price, title, description, isreport, forsale);
-                report_chain_promise.then(() => {
+            //write report to chain
+            let report_chain_promise = await chainwrite.report(hashPayload, price, title, description, isreport, forsale);
 
-                    //find inserted itemkey on chain
-                    chainread.items().then(item => {
-                        let itemkey = -1;
+            //find inserted itemkey on chain
+            let item = await chainread.items();
+                let itemkey = -1;
 
-                        for (let i = 0; i < item.rows.length; i++) {
-                            if (item.rows[i].hash == hashPayload) {
-                                itemkey = item.rows[i].key;
-                                break;
-                            }
+                for (let i = 0; i < item.rows.length; i++) {
+                    if (item.rows[i].hash == hashPayload) {
+                        itemkey = item.rows[i].key;
+                        break;
+                    }
+                }
+
+                localdb.writeItemKeyPairToDisk(itemkey, fileKey);
+
+                //find voting assignments for current item
+                chainread.votings().then(voting => {
+                    let assignedUsers = [];
+                    for (let i = 0; i < voting.rows.length; i++) {
+                        if (voting.rows[i].itemKey == itemkey) {
+                            assignedUsers.push(voting.rows[i].voter);
                         }
+                    }
+                    if (isreport){
+                        assignedUsers.push("BSI");
+                    }
 
-                        localdb.writeItemKeyPairToDisk(itemkey, fileKey);
-
-                        //find voting assignments for current item
-                        chainread.votings().then(voting => {
-                            let assignedUsers = [];
-                            for (let i = 0; i < voting.rows.length; i++) {
-                                if (voting.rows[i].itemKey == itemkey) {
-                                    assignedUsers.push(voting.rows[i].voter);
-                                }
-                            }
-                            if (isreport){
-                                assignedUsers.push("BSI");
-                            }
-
-                            //get public keys for users
-                            Promise.all(assignedUsers.map(chainread.users_byUser)).then((res) => {
-                                let fileKeys = [];
-                                res.forEach((user) => {
-                                    let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
-                                    fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
-                                    //RSA encrypt fileKey with publicKey
-                                })
-                                //upload fileKeys
-                                db.write_addEncryptedFileKeys(hashPayload, fileKeys);
-                            });
-
-                            this.loadPage(res, false, true);
+                    //get public keys for users
+                    Promise.all(assignedUsers.map(chainread.users_byUser)).then((res) => {
+                        let fileKeys = [];
+                        res.forEach((user) => {
+                            let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
+                            fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
+                            //RSA encrypt fileKey with publicKey
                         });
-
-
+                        //upload fileKeys
+                        db.write_addEncryptedFileKeys(hashPayload, fileKeys);
                     });
 
-
-                }, (err) => {
-                    this.loadPage(res, err);
+                    this.loadPage(res, false, true);
                 });
-            }, function (err) {
-                this.loadPage(res, err);
-            });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
             this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
         }
     },
