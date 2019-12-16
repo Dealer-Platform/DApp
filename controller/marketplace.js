@@ -42,8 +42,9 @@ module.exports = {
                 table += `<tr>
                 <th>Id</th>
                 <th>Reporter</th>
-                <th>Information</th>
+                <th>Name</th>
                 <th>Description</th>
+                <th>Information</th>
                 <th>Price</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -69,11 +70,14 @@ module.exports = {
                     //reporter
                     table += '<td>' + row.reporter + '</td>';
 
-                    //information
-                    table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';
+                    //title
+                    table += '<td><div class="label-primary">' + row.title + '</div></td>';
 
                     //description
                     table += '<td><div class="label-primary">' + row.description + '</div></td>';
+
+                    //information
+                    table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';
 
                     //price
                     table += '<td><div class="label-primary">' + row.price + '</div></td>';
