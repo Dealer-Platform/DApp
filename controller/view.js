@@ -122,11 +122,6 @@ module.exports = {
       let unlockedOrderCount = 0;
       if (orders[row.key] != undefined) {
         ordercount = orders[row.key].length;
-        //console.log(orders[row.key])
-        //if(orders[row.key].bkeyupload) unlockedOrderCount++;
-      }
-
-      if(orders[row.key] != undefined) {
         unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
         if (!Number.isInteger(unlockedOrderCount)) unlockedOrderCount = 1;
 
