@@ -296,6 +296,62 @@ module.exports = {
             expireSeconds: 30,
         });
     },
-
+    opendispute(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'opendispute',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
+    },
+    closedispute(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'closedispute',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
+    },
+    finishorder(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'finishorder',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
+    }
 
 };
