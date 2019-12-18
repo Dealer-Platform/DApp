@@ -163,3 +163,15 @@ config.json
 /nbproject/private/
 
 .deal
+configsampleslocal/config-simon.json
+configsampleslocal/config-emma.json
+configsampleslocal/config-bsi.json
+configsampleslocal/config-isabelle.json
+configsampleslocal/config-peter.json
+configsampleslocal/config-bob.json
+configsampleslocal/config-bsi.json
+configsampleslocal/config-emma.json
+configsampleslocal/config-isabelle.json
+configsampleslocal/config-peter.json
+configsampleslocal/config-simon.json
+keystore.deal
