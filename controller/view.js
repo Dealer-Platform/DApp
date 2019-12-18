@@ -125,14 +125,17 @@ module.exports = {
         //console.log(orders[row.key])
         //if(orders[row.key].bkeyupload) unlockedOrderCount++;
       }
-      unlockedOrderCount += orders[row.key].reduce((a,b) => a.bkeyupload + b.bkeyupload)
-      if(!Number.isInteger(unlockedOrderCount)) unlockedOrderCount = 1;
 
-      element += '<div class="aspect-tab">';
+      if(orders[row.key] != undefined) {
+        unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
+        if (!Number.isInteger(unlockedOrderCount)) unlockedOrderCount = 1;
 
-      if (ordercount != 0) {
-        element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
-        element += '<label for="item-' + i + '" class="aspect-label"></label>';
+        element += '<div class="aspect-tab">';
+
+        if (ordercount != 0) {
+          element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
+          element += '<label for="item-' + i + '" class="aspect-label"></label>';
+        }
       }
 
       element += `<div class="aspect-content ${ordercount > 0 ? 'toggleable' : 'defcursor'}">
