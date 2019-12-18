@@ -20,6 +20,7 @@ const port = 80;
 const c_home = require('./controller/home');
 const c_report = require('./controller/report');
 const c_marketplace = require('./controller/marketplace');
+const c_dispute = require('./controller/dispute');
 const c_view = require('./controller/view');
 const c_orders = require('./controller/orders');
 const c_verify = require('./controller/verify');
@@ -48,6 +49,9 @@ router.get('/report', function (req, res) {
 });
 router.get('/marketplace', function (req, res) {
     c_marketplace.loadPage(res);
+});
+router.get('/dispute', function (req, res) {
+    c_dispute.loadPage(res);
 });
 router.get('/view', function (req, res) {
     c_view.loadPage(res);
@@ -109,6 +113,10 @@ app.post('/blame', (req, res) => {
 //manage the dashboard form(s)
 app.post('/marketplace', (req, res) => {
     c_marketplace.handleRequest(req, res);
+});
+//manage disputes
+app.post('/dispute', (req, res) => {
+    c_dispute.handleRequest(req, res);
 });
 //manage orders
 app.post('/orders', (req, res) => {
