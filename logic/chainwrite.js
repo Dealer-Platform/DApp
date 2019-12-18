@@ -352,6 +352,25 @@ module.exports = {
             blocksBehind: 3,
             expireSeconds: 30,
         });
+    },
+    redeemorder(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'redeemorder',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
     }
 
 };

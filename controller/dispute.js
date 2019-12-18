@@ -24,6 +24,9 @@ module.exports = {
         if (fnc == "finish")
             await chainwrite.finishorder(order);
 
+        if (fnc == "redeem")
+            await chainwrite.redeemorder(order);
+
         await this.loadPage(res);
     },
 

@@ -53,6 +53,15 @@
 					<input type="number" name="order">
 					<input type="submit" value="finish order"/>
 				</form>
+
+                <h3>Redeem Price for order (Rücküberweisung von Escrow, wenn nach (aktuell 3 Tagen) keine Einigung)</h3>
+                <form method="POST" action="dispute">
+                    <label>Order no: </label>
+                    <input type="hidden" name="fnc" value="redeem">
+                    <input type="number" name="order">
+                    <input type="submit" value="Redeem order"/>
+                </form>
+
             </div>
         </div>
     </div>
