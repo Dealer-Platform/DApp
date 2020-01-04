@@ -31,7 +31,7 @@ module.exports = {
 
         header += `    <script>
         $(document).ready(function () {
-            $('#currentuser').html("<p>${config.user} (${user.rows[0].balance} Tokens)</p>");
+            $('#currentuser').html("<p>${config.user} (${user.balance} Tokens)</p>");
             $('#currentuserimage').attr("src", "assets/img/theme/${config.user}.jpg");
         });
         </script>`;

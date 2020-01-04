@@ -95,7 +95,7 @@ async function getUserItems(user){
 
 module.exports = {
 
-    async read_item() {
+    async read_user_items() {
         return getUserItems(config.user);
     },
 
@@ -107,11 +107,14 @@ module.exports = {
 
     async read_key(user, hash){
         let dir = await resolveAndPin(user.ipns);
-        let result = await readJson(dir + '/keys/' + hash);
-        let key = result.fileKeys.find(key => key.user === config.user);
-        return key.encryptedFileKey;
+        let key = undefined;
+        try {
+            let result = await readJson(dir + '/keys/' + hash);
+            key = result.fileKeys.find(key => key.user === config.user).encryptedFileKey;
+        }
+        catch(err){}
+        return key;
     },
-
 
     async read_all_items() {
         let users = (await chain.users()).rows;
@@ -120,12 +123,9 @@ module.exports = {
         );
     },
 
-    async read_item_byID(user, hash) {
+    async read_item(user, hash) {
         let dir = await resolveAndPin(user.ipns);
-        let item = await readJson(dir + '/items/' + hash);
-        let key = await readJson(dir + '/keys/' + hash);
-        item.fileKeys = key;
-        return item;
+        return readJson(dir + '/items/' + hash);
     },
 
     async write_report(encryptedData, hashEncryptedData, encryptedFileKey, init_vector, itemType, title, description, industry) {
@@ -133,7 +133,7 @@ module.exports = {
             _id:hashEncryptedData, encryptedData:encryptedData, init_vector:init_vector,
             itemType:itemType, title:title, description:description, industry:industry
         };
-        let fileKey = { _id: hashEncryptedData, fileKeys: [{ encryptedFileKey:encryptedFileKey, user:config.user }] };
+        let fileKey = { _id: hashEncryptedData, fileKeys: [{user:config.user, encryptedFileKey:encryptedFileKey}] };
 
         await Promise.all([
             writeJson(itemsPath + hashEncryptedData, incident),
@@ -153,6 +153,11 @@ module.exports = {
         let path = keysPath + hash;
 
         let json = await readJsonFile(path);
+
+        //don't add duplicates
+        let users = json.fileKeys.map(k => k.user);
+        keys = keys.filter(k => users.indexOf(k.user) === -1);
+
         json.fileKeys = json.fileKeys.concat(keys);
 
         await writeJson(path, json);

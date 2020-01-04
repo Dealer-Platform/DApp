@@ -35,79 +35,75 @@ module.exports = {
             }
         });
 
-        let items = chainread.items();
-        await items.then(result => {
+        let items = await chainread.items();
 
-                let table = '<table class="table align-items-center table-flush">';
-                table += `<tr>
-                <th>Id</th>
-                <th>Reporter</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Information</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Action</th>
-                </tr>`;
-                for (let i = 0; i < result.rows.length; i++) {
-                    let row = result.rows[i];
+        //filter out items where user is verifier
+        let votings = await chainread.votings();
+        let verifierItems = votings.rows.filter(v => v.voter === config.user).map(v => v.itemKey)
 
+        items.rows = items.rows
+          .filter(i => i.reporter !== config.user)
+          .filter(i => verifierItems.indexOf(i.key) === -1);
 
-                    if (row.reporter == config.user)
-                        continue;
-
-
-                    if (orders[row.key] != undefined) {
-                        if (orders[row.key].buyer == config.user) {
-                            continue;
-                        }
-                    }
-
-                    table += '<tr>';
-
-                    //id
-                    table += '<td>' + row.key + '</td>';
-                    //reporter
-                    table += '<td>' + row.reporter + '</td>';
-
-                    //title
-                    table += '<td><div class="label-primary">' + row.title + '</div></td>';
-
-                    //description
-                    table += '<td><div class="label-primary">' + row.description + '</div></td>';
-
-                    //information
-                    table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';
-
-                    //price
-                    table += '<td><div class="label-primary">' + row.price + '</div></td>';
-
-
-                    //Status
-                    let accepted = row.accepts < 3 ? false : true;
-                    table += '<td><div class="label-secondary ' + (accepted ? "text-green" : "text-orange") + '">' + (accepted ? "Verified" : "Pending") + '</div></td>';
-
-                    //buy
-                    table += '<td><form method="post" action="/marketplace">';
-                    table += '<input type="hidden" name="key" value="' + row.key + '"/>';
-                    table += '<input type="submit" class="btn btn-sm btn-primary" value="Buy">';
-                    table += '</form></td>';
-                    table += '</tr>';
+        let table = '<table class="table align-items-center table-flush">';
+        table += `<tr>
+            <th>Reporter</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Information</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Verification</th>
+            <th>Action</th>
+            </tr>`;
+        for (let i = 0; i < items.rows.length; i++) {
+            let row = items.rows[i];
+            if (orders[row.key] != undefined) {
+                if (orders[row.key].buyer == config.user) {
+                    continue;
                 }
-                table += '</table>';
-
-                //place table;
-                let view_dom = new jsdom.JSDOM(view);
-                let $ = jquery(view_dom.window);
-                $('.table-responsive').html(table);
-                view = view_dom.serialize();
-
-                //send page to user
-                nav.deliver(res, view, err, done);
-            },
-            function (err) {
-                console.log(err);
             }
-        );
+
+            table += '<tr>';
+
+            //reporter
+            table += '<td>' + row.reporter + '</td>';
+
+            //title
+            table += '<td><div class="label-primary">' + row.title + '</div></td>';
+
+            //description
+            table += '<td><div class="label-primary">' + row.description + '</div></td>';
+
+            //information
+            table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';
+
+            //price
+            table += '<td><div class="label-primary">' + row.price + '</div></td>';
+
+            //date
+            table += '<td>' + new Date(row.timestamp).toLocaleString() + '</td>';
+
+            //Status
+            let accepted = row.accepts < 3 ? false : true;
+            table += '<td><div class="label-secondary ' + (accepted ? "text-green" : "text-orange") + '">' + (accepted ? "Verified" : "Pending") + '</div></td>';
+
+            //buy
+            table += '<td><form method="post" action="/marketplace">';
+            table += '<input type="hidden" name="key" value="' + row.key + '"/>';
+            table += '<input type="submit" class="btn btn-sm btn-primary" value="Buy">';
+            table += '</form></td>';
+            table += '</tr>';
+        }
+        table += '</table>';
+
+        //place table;
+        let view_dom = new jsdom.JSDOM(view);
+        let $ = jquery(view_dom.window);
+        $('.table-responsive').html(table);
+        view = view_dom.serialize();
+
+        //send page to user
+        nav.deliver(res, view, err, done);
     }
 };

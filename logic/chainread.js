@@ -88,7 +88,7 @@ module.exports = {
         return pkarr;
     },
     async users_byUser(user) {
-        return await rpc.get_table_rows({
+        let result = await rpc.get_table_rows({
             "json": true,
             "code": "reporting",
             "scope": "reporting",
@@ -96,6 +96,7 @@ module.exports = {
             "lower_bound": user,
             "limit": 1
         });
+        return result.rows[0];
     },
     async votings() {
         return await rpc.get_table_rows({
@@ -105,6 +106,17 @@ module.exports = {
             "table": "voteassign",
             "limit": 500
         });
+    },
+
+    async voters_byItem(item){
+        let voting = await this.votings();
+        let assignedUsers = [];
+        for (let i = 0; i < voting.rows.length; i++) {
+            if (voting.rows[i].itemKey === item) {
+                assignedUsers.push(voting.rows[i].voter);
+            }
+        }
+        return assignedUsers
     }
 
 };

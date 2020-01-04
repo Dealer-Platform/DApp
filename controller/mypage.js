@@ -59,7 +59,7 @@ module.exports = {
         $('#userlogo').attr("src", "../assets/img/theme/"+config.user+".jpg");
 
         let user = await chainread.users_byUser(config.user);
-        $('#currentbalance').text(user.rows[0].balance);
+        $('#currentbalance').text(user.balance);
 
         mypage = mypage_dom.serialize();
 

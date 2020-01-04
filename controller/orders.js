@@ -5,11 +5,25 @@ const jquery = require("jquery");
 const db = require('../logic/ipfs');
 
 const chainread = require('../logic/chainread');
+const chainwrite = require('../logic/chainwrite');
 const site = "orders";
 
 module.exports = {
 
-  handleRequest(req, res) {
+  async handleRequest(req, res) {
+    let fnc = req.body.fnc;
+    let order = req.body.order;
+
+    if (fnc === "opendispute")
+      await chainwrite.opendispute(order);
+
+    if (fnc === "closedispute")
+      await chainwrite.closedispute(order);
+
+    if (fnc === "redeem")
+      await chainwrite.redeemorder(order);
+
+    await this.loadPage(res)
   },
 
 
@@ -21,7 +35,7 @@ module.exports = {
     let users = await chainread.users();
 
     let table_myOrders = '<table class="table align-items-center table-flush">';
-    table_myOrders += '<tr><th>Item</th><th>Reporter</th><th>Name</th><th>Description</th></th><th>Orderdate</th><th>Download</th></tr>';
+    table_myOrders += '<tr><th>Item</th><th>Reporter</th><th>Name</th><th>Description</th></th><th>Order Date</th><th>Status</th><th>Actions</th></tr>';
     for (let i = 0; i < order_items.rows.length; i++) {
       let row = order_items.rows[i];
       if (row.buyer !== config.user)
@@ -35,7 +49,7 @@ module.exports = {
       table_myOrders += '<td>' + row.seller + '</td>';
       table_myOrders += '<td>' + item.title + '</td>';
       table_myOrders += '<td>' + item.description + '</td>';
-      table_myOrders += '<td>' + row.timestamp + '</td>';
+      table_myOrders += '<td>' + new Date(row.timestamp).toLocaleString() + '</td>';
 
       //ACTION BUTTON
       // if (row.finished == 0) {
@@ -44,12 +58,29 @@ module.exports = {
       //     table_myOrders += '<td><div class="label-ok text-green"><i class="ni ni-2x ni-check-bold"></i></i></div></td>';
       // }
 
-      //check if key available
-      try {
-        let res = await db.read_key(user, item.hash);
-        table_myOrders += '<td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '" class="btn btn-sm btn-primary">Download</a></td>';
-      } catch (err) {
-        table_myOrders += '<td>No key available</td>'
+      //todo @flo nice icons statt buttons mit text
+      if(row.dispute){
+        table_myOrders += '<td>Disputed</td><td>';
+        table_myOrders += '<a href="/download?user=' + row.seller + '&hash=' + item.hash + '&dispute=' + row.itemKey + '" class="btn btn-sm btn-primary">Download</a>';
+        table_myOrders += '<form action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="finish" /><input class="btn btn-sm btn-primary" type="submit" value="Thumbs up"></form>';
+        table_myOrders += '<form action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="redeem" /><input class="btn btn-sm btn-primary" type="submit" value="Cancel Order"></form>';
+        table_myOrders += '</td>';
+      }
+      else {
+        //check if key available
+        let key = await db.read_key(user, item.hash);
+        if(key){
+          if (!row.finished && !row.dispute) {
+            table_myOrders += '<td>Accepted</td><td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '&finish=' + row.key + '" class="btn btn-sm btn-primary">Download</a>';
+            table_myOrders += '<form action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="finish" /><input class="btn btn-sm btn-primary" type="submit" value="Thumbs up"></form>';
+            table_myOrders += '<form action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="opendispute" /><input class="btn btn-sm btn-primary" type="submit" value="Thumbs down"></form></td>';
+          }
+          else
+            table_myOrders += '<td>Finished</td><td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '" class="btn btn-sm btn-primary">Download</a></td>';
+        }
+        else{
+          table_myOrders += '<td>Waiting for seller</td><td>No key available</td>'
+        }
       }
       table_myOrders += '</tr>';
     }

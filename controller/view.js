@@ -21,8 +21,8 @@ module.exports = {
         let buyer = req.body.buyer;
         let keysFromDisk = await localdb.readAllKeyPairsFromDisk();
         let items = await chainread.items_byKey(itemKey);
-        let users = await chainread.users_byUser(buyer)
-        let encryptedFileKey = crypto.encryptRSA(keysFromDisk[itemKey], users.rows[0].publicKey);
+        let user = await chainread.users_byUser(buyer)
+        let encryptedFileKey = crypto.encryptRSA(keysFromDisk[itemKey], user.publicKey);
         let json = {user: buyer, encryptedFileKey: encryptedFileKey}
         await Promise.all([
           db.write_addEncryptedFileKeys(items.rows[0].hash, [json]),
@@ -113,22 +113,21 @@ module.exports = {
     let result = await chainread.items()
     let unfinishedItems = [];
     let element = "";
-
     for (let i = 0; i < result.rows.length; i++) {
       let row = result.rows[i];
 
-      if (row.reporter != config.user)
+      if (row.reporter !== config.user)
         continue;
+
+      element += '<div class="aspect-tab">';
 
       let ordercount = 0;
       let unlockedOrderCount = 0;
-      if (orders[row.key] != undefined) {
+      if (orders[row.key] !== undefined) {
         ordercount = orders[row.key].length;
         unlockedOrderCount = orders[row.key][0].bkeyupload
         if(orders[row.key].length > 1)
           unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
-
-        element += '<div class="aspect-tab">';
 
         if (ordercount != 0) {
           element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
@@ -225,8 +224,6 @@ module.exports = {
       }
 
       element += "</div></div></div>";
-
-      //element += `<a href="/download?user=${row.reporter}&hash=${row.hash}" class="btn btn-sm btn-primary float-right">Download</a>`;
 
     }
 

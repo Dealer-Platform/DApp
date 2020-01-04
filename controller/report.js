@@ -19,8 +19,8 @@ module.exports = {
             let industry = req.body.incidentIndustry;
             let itemType = req.body.itemType;
 
-            let isreport = req.body.isreport == undefined ? false : true;
-            let forsale = req.body.forsale == undefined ? false : true;
+            let isreport = req.body.isreport != undefined;
+            let forsale = req.body.forsale != undefined;
 
 
             //encrypt data
@@ -49,31 +49,24 @@ module.exports = {
                 localdb.writeItemKeyPairToDisk(itemkey, fileKey);
 
                 //find voting assignments for current item
-                chainread.votings().then(voting => {
-                    let assignedUsers = [];
-                    for (let i = 0; i < voting.rows.length; i++) {
-                        if (voting.rows[i].itemKey == itemkey) {
-                            assignedUsers.push(voting.rows[i].voter);
-                        }
-                    }
-                    if (isreport){
-                        assignedUsers.push("BSI");
-                    }
+                let assignedUsers = await chainread.voters_byItem(itemkey)
+                if (isreport){
+                    assignedUsers.push("bsi");
+                }
 
-                    //get public keys for users
-                    Promise.all(assignedUsers.map(chainread.users_byUser)).then((res) => {
-                        let fileKeys = [];
-                        res.forEach((user) => {
-                            let encryptedFileKey = crypto.encryptRSA(fileKey, user.rows[0].publicKey);
-                            fileKeys.push({user: user.rows[0].user, encryptedFileKey: encryptedFileKey})
-                            //RSA encrypt fileKey with publicKey
-                        });
-                        //upload fileKeys
-                        db.write_addEncryptedFileKeys(hashPayload, fileKeys);
-                    });
+                //get public keys for users
+                let userPromise = await Promise.all(assignedUsers.map(chainread.users_byUser))
 
-                    this.loadPage(res, false, true);
+                let fileKeys = [];
+                userPromise.forEach((user) => {
+                    let encryptedFileKey = crypto.encryptRSA(fileKey, user.publicKey);
+                    fileKeys.push({user: user.user, encryptedFileKey: encryptedFileKey})
+                    //RSA encrypt fileKey with publicKey
                 });
+                //upload fileKeys
+                await db.write_addEncryptedFileKeys(hashPayload, fileKeys);
+
+                this.loadPage(res, false, true);
 
         } catch (e) {
             console.log(e);
