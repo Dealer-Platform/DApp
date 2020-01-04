@@ -398,3 +398,9 @@ body {
 .inline {
     display: inline;
 }
+
+.thumbsbutton{
+    cursor: pointer;
+    margin-left: 5px;
+
+}
