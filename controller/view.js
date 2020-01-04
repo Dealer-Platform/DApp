@@ -83,7 +83,7 @@ module.exports = {
 
     } catch (e) {
       console.log(e)
-      this.loadPage(res, "FEHLER: Meldung war nicht erfolgreich. Verschlüsselung oder Blockchain/Datenbank Transaktion schlug fehl.", true);
+      this.loadPage(res, e, true);
     }
 
   },
