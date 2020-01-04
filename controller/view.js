@@ -23,8 +23,9 @@ module.exports = {
         let items = await chainread.items_byKey(itemKey);
         let users = await chainread.users_byUser(buyer)
         let encryptedFileKey = crypto.encryptRSA(keysFromDisk[itemKey], users.rows[0].publicKey);
+        let json = {user: buyer, encryptedFileKey: encryptedFileKey}
         await Promise.all([
-          db.write_addEncryptedFileKeys(items.rows[0].hash, [encryptedFileKey]),
+          db.write_addEncryptedFileKeys(items.rows[0].hash, [json]),
           chainwrite.keyupload(orderKey)
         ]);
       }
@@ -60,14 +61,15 @@ module.exports = {
           let items = await chainread.items_byKey(order.itemKey);
           if (!key) {
             key = db.read_own_key(items.rows[0].hash);
-            //localdb.writeItemKeyPairToDisk(order.itemkey, key);
+            localdb.writeItemKeyPairToDisk(order.itemkey, key);
           }
 
           let encryptedFileKey = crypto.encryptRSA(key, pks[order.buyer]);
+          let json = {user: order.buyer, encryptedFileKey: encryptedFileKey}
           if (!fileKeys[items.rows[0].hash])
-            fileKeys[items.rows[0].hash] = [encryptedFileKey]
+            fileKeys[items.rows[0].hash] = [json]
           else
-            fileKeys[items.rows[0].hash].push(encryptedFileKey)
+            fileKeys[items.rows[0].hash].push(json)
 
           requests.push(chainwrite.keyupload(order.key));
         }
@@ -122,8 +124,9 @@ module.exports = {
       let unlockedOrderCount = 0;
       if (orders[row.key] != undefined) {
         ordercount = orders[row.key].length;
-        unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
-        if (!Number.isInteger(unlockedOrderCount)) unlockedOrderCount = 1;
+        unlockedOrderCount = orders[row.key][0].bkeyupload
+        if(orders[row.key].length > 1)
+          unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
 
         element += '<div class="aspect-tab">';
 
