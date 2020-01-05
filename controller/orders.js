@@ -81,7 +81,7 @@ module.exports = {
 
                     //Redeem after 7 days
                     var date1 = new Date(row.timestamp);
-                    var difference = (new Date().getTime() - date1.getTime()) / (1000 * 3600 * 24);
+                    var difference = (new Date().getTime() - date1.getTime()) /(1000 * 3600 * 24);
 
                     if(difference > 7){
                       table_myOrders += '<td><form id="redeemform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="redeem" /></span><span class="fa fa-2x fa-dollar-sign fa-undo text-red thumbsbutton" onclick="$(\'#redeemform\').submit();"></form></td>';
