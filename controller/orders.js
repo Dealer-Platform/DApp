@@ -25,6 +25,10 @@ module.exports = {
         if (fnc === "redeem")
             await chainwrite.redeemorder(order);
 
+        if (fnc === "finish")
+            await chainwrite.finishorder(order);
+
+
         await this.loadPage(res)
     },
 
@@ -71,7 +75,7 @@ module.exports = {
                 let key = await db.read_key(user, item.hash);
                 if (key) {
                     if (!row.finished && !row.dispute) {
-                        table_myOrders += '<td>Accepted</td><td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '&finish=' + row.key + '" class="btn btn-sm btn-primary">Download</a>';
+                        table_myOrders += '<td>Accepted</td><td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '&finish=' + row.key + '" class="btn btn-sm btn-primary">Download</a></td><td>';
                         table_myOrders += '<form id="availupform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="finish" /><span class="fa fa-2x fa-thumbs-up thumbsbutton text-green" onclick="$(\'#availupform\').submit();"></span></form>';
                         table_myOrders += '<form id="availdownform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="opendispute" /><span class="fa fa-2x fa-thumbs-down thumbsbutton text-red" onclick="$(\'#availdownform\').submit();"></span></form></td>';
                     } else
@@ -81,12 +85,12 @@ module.exports = {
 
                     //Redeem after 7 days
                     var date1 = new Date(row.timestamp);
-                    var difference = (new Date().getTime() - date1.getTime()) /(1000 * 3600 * 24);
+                    var difference = (new Date().getTime() - date1.getTime()) / (1000 * 3600 * 24);
 
-                    if(difference > 7){
-                      table_myOrders += '<td><form id="redeemform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="redeem" /></span><span class="fa fa-2x fa-dollar-sign fa-undo text-red thumbsbutton" onclick="$(\'#redeemform\').submit();"></form></td>';
-                    }else{
-                      table_myOrders += '<td>No key available</td>';
+                    if (difference > 7) {
+                        table_myOrders += '<td><form id="redeemform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="redeem" /></span><span class="fa fa-2x fa-dollar-sign fa-undo text-red thumbsbutton" onclick="$(\'#redeemform\').submit();"></form></td>';
+                    } else {
+                        table_myOrders += '<td>No key available</td>';
                     }
                     //end redeem
 
