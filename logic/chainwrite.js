@@ -371,6 +371,25 @@ module.exports = {
             blocksBehind: 3,
             expireSeconds: 30,
         });
+    },
+    redeemforseller(orderno) {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'sellredeem',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user,
+                    orderno: orderno
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
     }
 
 };
