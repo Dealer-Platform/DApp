@@ -129,6 +129,13 @@ module.exports = {
     },
 
     async write_report(encryptedData, hashEncryptedData, encryptedFileKey, init_vector, itemType, title, description, industry) {
+        try {
+            let result = await ipfs.files.stat(itemsPath + hashEncryptedData, {hash: true});
+            if(result) {
+                return Promise.reject("Item already exists");
+            }
+        } catch(err){}
+
         let incident =  {
             _id:hashEncryptedData, encryptedData:encryptedData, init_vector:init_vector,
             itemType:itemType, title:title, description:description, industry:industry

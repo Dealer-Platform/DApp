@@ -29,44 +29,44 @@ module.exports = {
             let {iv, encryptedData} = crypto.encryptAES(data, fileKey);
             let hashPayload = crypto.hashSHA256(data);
 
-            //write report to IPFS
-            let report_db_promise = await db.write_report(encryptedData, hashPayload, encryptedFileKey, iv, itemType, title, description, industry);
-
-            //write report to chain
-            let report_chain_promise = await chainwrite.report(hashPayload, price, title, description, isreport, forsale);
+            //write report to IPFS and chain
+            await Promise.all([
+              db.write_report(encryptedData, hashPayload, encryptedFileKey, iv, itemType, title, description, industry),
+              chainwrite.report(hashPayload, price, title, description, isreport, forsale)
+            ]);
 
             //find inserted itemkey on chain
             let item = await chainread.items();
-                let itemkey = -1;
+            let itemkey = -1;
 
-                for (let i = 0; i < item.rows.length; i++) {
-                    if (item.rows[i].hash == hashPayload) {
-                        itemkey = item.rows[i].key;
-                        break;
-                    }
+            for (let i = 0; i < item.rows.length; i++) {
+                if (item.rows[i].hash == hashPayload) {
+                    itemkey = item.rows[i].key;
+                    break;
                 }
+            }
 
-                localdb.writeItemKeyPairToDisk(itemkey, fileKey);
+            localdb.writeItemKeyPairToDisk(itemkey, fileKey);
 
-                //find voting assignments for current item
-                let assignedUsers = await chainread.voters_byItem(itemkey)
-                if (isreport){
-                    assignedUsers.push("bsi");
-                }
+            //find voting assignments for current item
+            let assignedUsers = await chainread.voters_byItem(itemkey)
+            if (isreport){
+                assignedUsers.push("bsi");
+            }
 
-                //get public keys for users
-                let userPromise = await Promise.all(assignedUsers.map(chainread.users_byUser))
+            //get public keys for users
+            let userPromise = await Promise.all(assignedUsers.map(chainread.users_byUser))
 
-                let fileKeys = [];
-                userPromise.forEach((user) => {
-                    let encryptedFileKey = crypto.encryptRSA(fileKey, user.publicKey);
-                    fileKeys.push({user: user.user, encryptedFileKey: encryptedFileKey})
-                    //RSA encrypt fileKey with publicKey
-                });
-                //upload fileKeys
-                await db.write_addEncryptedFileKeys(hashPayload, fileKeys);
+            let fileKeys = [];
+            userPromise.forEach((user) => {
+                let encryptedFileKey = crypto.encryptRSA(fileKey, user.publicKey);
+                fileKeys.push({user: user.user, encryptedFileKey: encryptedFileKey})
+                //RSA encrypt fileKey with publicKey
+            });
+            //upload fileKeys
+            await db.write_addEncryptedFileKeys(hashPayload, fileKeys);
 
-                this.loadPage(res, false, true);
+            this.loadPage(res, false, true);
 
         } catch (e) {
             console.log(e);
