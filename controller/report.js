@@ -70,7 +70,7 @@ module.exports = {
 
         } catch (e) {
             console.log(e);
-            this.loadPage(res, e.message, true);
+            this.loadPage(res, e, false);
         }
     },
     loadPage(res, err, done) {
@@ -78,16 +78,5 @@ module.exports = {
         // report = template.handleMessage(report, err, done);
 
         template.deliver(res, report, err, done);
-    },
-    async findItem(hash) {
-        await chainread.items().then(item => {
-            for (let i = 0; i < item.rows.length; i++) {
-                let row = item.rows[i];
-                if (row.hash == hash)
-                    return row.key;
-            }
-        });
-        return -1;
     }
-
 };
