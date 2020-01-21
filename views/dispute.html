@@ -27,40 +27,39 @@
                 </div>
                 <p class="error"></p>
 
-                <hr/>
 
 
-                <h3>open dispute (download ging nicht -> dispute aufmachen)</h3>
-                <form method="POST" action="dispute">
-                    <label>Order no: </label>
-                    <input type="hidden" name="fnc" value="open">
-                    <input type="number" name="order">
-                    <input type="submit" value="open dispute"/>
-                </form>
+<!--                <h3>open dispute (download ging nicht -> dispute aufmachen)</h3>-->
+<!--                <form method="POST" action="dispute">-->
+<!--                    <label>Order no: </label>-->
+<!--                    <input type="hidden" name="fnc" value="open">-->
+<!--                    <input type="number" name="order">-->
+<!--                    <input type="submit" value="open dispute"/>-->
+<!--                </form>-->
 
-                <h3>close dispute (neuer key upload -> dispute temporär schließen -> neuer Download versuch)</h3>
-                <form method="POST" action="dispute">
-                    <label>Order no: </label>
-					<input type="hidden" name="fnc" value="close">
-                    <input type="number" name="order">
-                    <input type="submit" value="close dispute"/>
-                </form>
+<!--                <h3>close dispute (neuer key upload -> dispute temporär schließen -> neuer Download versuch)</h3>-->
+<!--                <form method="POST" action="dispute">-->
+<!--                    <label>Order no: </label>-->
+<!--					<input type="hidden" name="fnc" value="close">-->
+<!--                    <input type="number" name="order">-->
+<!--                    <input type="submit" value="close dispute"/>-->
+<!--                </form>-->
 
-				<h3>finish order (download hat nach dispute nun funktioniert, schließe order ab, zahle escrow aus)</h3>
-				<form method="POST" action="dispute">
-					<label>Order no: </label>
-					<input type="hidden" name="fnc" value="finish">
-					<input type="number" name="order">
-					<input type="submit" value="finish order"/>
-				</form>
+<!--				<h3>finish order (download hat nach dispute nun funktioniert, schließe order ab, zahle escrow aus)</h3>-->
+<!--				<form method="POST" action="dispute">-->
+<!--					<label>Order no: </label>-->
+<!--					<input type="hidden" name="fnc" value="finish">-->
+<!--					<input type="number" name="order">-->
+<!--					<input type="submit" value="finish order"/>-->
+<!--				</form>-->
 
-                <h3>Redeem Price for order (Rücküberweisung von Escrow, wenn nach (aktuell 3 Tagen) keine Einigung)</h3>
-                <form method="POST" action="dispute">
-                    <label>Order no: </label>
-                    <input type="hidden" name="fnc" value="redeem">
-                    <input type="number" name="order">
-                    <input type="submit" value="Redeem order"/>
-                </form>
+<!--                <h3>Redeem Price for order (Rücküberweisung von Escrow, wenn nach (aktuell 3 Tagen) keine Einigung)</h3>-->
+<!--                <form method="POST" action="dispute">-->
+<!--                    <label>Order no: </label>-->
+<!--                    <input type="hidden" name="fnc" value="redeem">-->
+<!--                    <input type="number" name="order">-->
+<!--                    <input type="submit" value="Redeem order"/>-->
+<!--                </form>-->
 
             </div>
         </div>
