@@ -16,10 +16,10 @@
   "dependencies": {
     "assert": "^1.4.1",
     "bigdecimal": "^0.6.1",
-    "ipfs-http-client": "^39.0.2",
-    "eosjs": "^20.0.0",
+    "ipfs-http-client": "^41.0.0",
+    "eosjs": "^20.0.3",
     "eosjs-api": "^7.0.4",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "fs": "0.0.1-security",
     "jquery": "^3.4.0",
