@@ -60,6 +60,7 @@ module.exports = {
       res.send(decrypted)
     }
     catch(err) {
+      console.log(err)
       res.redirect(req.header('Referer'))
     }
   }

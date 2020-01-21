@@ -88,10 +88,11 @@ module.exports = {
 
             //check if key available
             try {
-                await db.read_own_key(row.hash);
+                await db.read_key(row.hash);
                 table += '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>';
             }
             catch(err) {
+                console.log(err);
                 table += '<td>No key available</td>'
             }
 
