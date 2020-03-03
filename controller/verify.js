@@ -19,13 +19,11 @@ module.exports = {
         let item = req.body.item;
         let rating = req.body.rating;
         try {
-
-
-            if (approve != undefined) {
-                await chainwrite.verify(item, true, rating);
-            } else {
-                await chainwrite.verify(item, false, rating);
-            }
+            // if (approve != undefined) {
+            await chainwrite.verify(item, true, rating);
+            // } else {
+            //     await chainwrite.verify(item, false, rating);
+            // }
         } catch (e) {
             console.log(e);
             this.loadPage(res);
@@ -90,27 +88,21 @@ module.exports = {
             try {
                 await db.read_own_key(row.hash);
                 table += '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>';
-            }
-            catch(err) {
+            } catch (err) {
                 table += '<td>No key available</td>'
             }
 
             if (votings[row.key].done == 0) {
                 //Download
-                table += '<td><form method="post" action="/verify">';
-                table += '<input type="hidden" name="item" value="' + row.key + '"/>';
-                table += '<input type="hidden" name="key" value="vote"/>';
-                table += '<label>Rating: </label>';
-                table += '<input type="number" name="rating" value="1" id="intLimitTextBox" style="margin-right: 10px;"/>';
-                table += '<input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject">';
-                table += '<input type="submit" name="approve"  class="btn btn-sm btn-success" value="Approve">';
-                table += '</form></td>';
+                // table += '<td>';
+                // table += '<input type="hidden" name="item" value="' + row.key + '"/>';
+                // table += '<input type="hidden" name="key" value="vote"/>';
+                // table += '<label>Rating: </label>';
+                // table += '<input type="number" name="rating" value="1" id="intLimitTextBox" style="margin-right: 10px;"/>';
+                table += '<td><button onclick="initModal('+row.key+')" class="btn btn-success">Verify</button></td>';
+                // table += '</td>';
             } else {
-                if (votings[row.key].approved) {
-                    table += '<td><div class="label-primary text-green">Approved (Rating: ' + votings[row.key].rating + ')</div></td>';
-                } else {
-                    table += '<td><div class="label-primary text-red">Rejected(' + votings[row.key].rating + ')</div></td>';
-                }
+                    table += '<td><div class="label-primary text-green">Rating: ' + Number(votings[row.key].rating).toFixed(2) + '</div></td>';
 
 
             }

@@ -1,3 +1,24 @@
+<link rel="stylesheet" href="slider/verifystyle.css"/>
+
+<style>
+    .w3-teal {
+        background-color: #eee !important;
+    }
+
+    .w3-teal h2, .w3-teal span, .w3-teal p {
+        color: #5e72e4 !important;
+    }
+
+    .w3modal {
+        height: 750px;
+    }
+
+    .w3-modal {
+        padding-top: 50px;
+    }
+</style>
+
+
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
     <div class="container-fluid">
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="../index.html">Verification</a>
@@ -29,30 +50,307 @@
     </div>
 </div>
 
-<script>
+<div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+        <header class="w3-container w3-teal">
+                        <span onclick="document.getElementById('id01').style.display = 'none'"
+                              class="w3-button w3-display-topright">&times;</span>
+            <h2>Verify Incident</h2>
+        </header>
+        <div class="w3-container">
+            <br/>
 
-    function setInputFilter(textbox, inputFilter) {
-        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
-            textbox.addEventListener(event, function () {
-                if (inputFilter(this.value)) {
-                    this.oldValue = this.value;
-                    this.oldSelectionStart = this.selectionStart;
-                    this.oldSelectionEnd = this.selectionEnd;
-                } else if (this.hasOwnProperty("oldValue")) {
-                    this.value = this.oldValue;
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                } else {
-                    this.value = "";
-                }
-            });
-        });
+            <div class="content w3modal">
+                <!--content inner-->
+                <div class="content__inner">
+                    <div class="container">
+                        <!--multisteps-form-->
+                        <div class="multisteps-form">
+                            <!--progress bar-->
+                            <div class="row">
+                                <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+                                    <div class="multisteps-form__progress">
+                                        <button class="multisteps-form__progress-btn js-active" type="button"
+                                                title="Data Model Metrics">Data Model Metrics
+                                        </button>
+                                        <button class="multisteps-form__progress-btn" type="button"
+                                                title="Object Metrics">Object Metrics
+                                        </button>
+                                        <button class="multisteps-form__progress-btn" type="button" title="Order Info">
+                                            Completeness
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--form panels-->
+                            <div class="row">
+                                <div class="col-12 col-lg-8 m-auto">
+                                    <form id="verifyincidentform" class="multisteps-form__form" method="post" action="/verify">
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel shadow p-4 rounded bg-white js-active"
+                                             data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title">Data Model Metrics</h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="form-row mt-4">
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 40px;">
+                                                            <h5>Representational Consistency</h5>
+                                                            <small>an estimate of how consistent the contents <br/>of
+                                                                the data model are (higher is more consistent)</small>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 40px;">
+                                                        <div id="consistency"></div>
+                                                        <input type="hidden" id="consistencyval"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row mt-4">
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 40px;">
+                                                            <h5>Conciseness</h5>
+                                                            <small>An overall assessment of the conciseness of the <br/>contents
+                                                                of the data set (higher is more concise)</small>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 40px;">
+                                                        <div id="conciseness"></div>
+                                                        <input type="hidden" id="concisenessval"/>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+
+                                                <div class="button-row d-flex mt-4">
+                                                    <button class="btn btn-primary ml-auto js-btn-next" type="button"
+                                                            title="Next">Next
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel shadow p-4 rounded bg-white"
+                                             data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title">Object Metrics</h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="form-row mt-4" style="margin-top: 40px;">
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 30px;">
+                                                            <h5>Objectivity</h5>
+                                                            <small>
+                                                                Assessment of the objectivity of the contents.<br/> What
+                                                                is the degree of objective and <br/>subjective
+                                                                information (higher is more objective)
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 40px;">
+                                                        <div id="objectivity"></div>
+                                                        <input type="hidden" id="objectivityval"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row mt-4">
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 30px;">
+                                                            <h5>Relevancy</h5>
+                                                            <small>Assessment of the actual relevance of the <br/>contents
+                                                                of the data set for the incident <br/> depicted (higher
+                                                                is more relevant)</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 40px;">
+                                                        <div id="relevancy"></div>
+                                                        <input type="hidden" id="relevancyval"/>
+                                                    </div>
+                                                </div>
+
+                                                <br/>
+                                                <br/>
+                                                <br/>
+
+                                                <div class="button-row d-flex mt-4">
+                                                    <button class="btn btn-primary js-btn-prev" type="button"
+                                                            title="Prev">Prev
+                                                    </button>
+                                                    <button class="btn btn-primary ml-auto js-btn-next" type="button"
+                                                            title="Next">Next
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--single form panel-->
+                                        <div class="multisteps-form__panel shadow p-4 rounded bg-white"
+                                             data-animation="scaleIn">
+                                            <h3 class="multisteps-form__title">Completeness</h3>
+                                            <div class="multisteps-form__content">
+                                                <div class="form-row mt-4">
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 20px;">
+                                                            <h5>Sufficient Data</h5>
+                                                            <small>
+                                                                Does the data set contain enough data <br/>to be able to
+                                                                understand the presented situation? <br/> (More
+                                                                understandable is higher)
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 20px;">
+                                                        <div id="sufficiency"></div>
+                                                        <input type="hidden" id="sufficiencyval"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row mt-4">
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 30px;">
+                                                            <h5>Schema completeness</h5>
+                                                            <small>Is the schema presented complete? <br/> Are elements
+                                                                missing? <br/> (More complete is higher)</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 30px;">
+                                                        <div id="completeness"></div>
+                                                        <input type="hidden" id="completenessval"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row mt-4">
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div style="margin-top: 30px;">
+                                                            <h5>Syntactic and Semantic Accuracy</h5>
+                                                            <small>Is the data set accurate? <br/> Are there syntactic
+                                                                or semantic errors? <br/> (More accurate is
+                                                                higher)</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4" style="margin-top: 40px;">
+                                                        <div id="accuracy"></div>
+                                                        <input type="hidden" id="accuracyval"/>
+                                                    </div>
+                                                </div>
+
+                                                <br/>
+                                                <br/>
+                                                <br/>
+
+                                                <div class="button-row d-flex mt-4">
+                                                    <input type="hidden" name="item" id="itemvar"/>
+                                                    <input type="hidden" name="key" value="vote"/>;
+                                                    <input type="hidden" name="rating" id="ratingvar"/>;
+
+
+                                                    <button class="btn btn-primary js-btn-prev" type="button"
+                                                            title="Prev">Prev
+                                                    </button>
+                                                    <button class="btn btn-success ml-auto" type="button" title="Send"
+                                                            onclick="submitvalues()">Send
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--single form panel-->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer class="w3-container w3-teal">
+            <p style="margin-top: 10px; float: right">Dealer Platform</p>
+        </footer>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function initModal(key) {
+        $('#itemvar').val(key)
+
+        document.getElementById('id01').style.display = 'block';
+
     }
 
 
-    setInputFilter(document.getElementById("intLimitTextBox"), function (value) {
-        return /^\d*$/.test(value) && (value === "" || (parseInt(value) <= 5));
+    function submitvalues() {
+        var sum = 0;
+
+        for (var item in Object.keys(array)) {
+            sum += array[Object.keys(array)[item]];
+        }
+        sum = sum / 7;
+        $('#ratingvar').val(sum)
+
+        document.getElementById("verifyincidentform").submit();
+    }
+
+
+    var array = [];
+
+    $(document).ready(function () {
+        mapSlider("consistency", 3, 5);
+        mapSlider("conciseness", 3, 5);
+        mapSlider("objectivity", 3, 5);
+        mapSlider("relevancy", 3, 5);
+        mapSlider("sufficiency", 3, 5);
+        mapSlider("completeness", 3, 5);
+        mapSlider("accuracy", 3, 5);
     });
 
+    function mapSlider(id, initval, maxval) {
+        array[id] = initval;
+
+        $("#" + id + "val").val(initval);
+
+        $("#" + id).roundSlider({
+            value: initval,
+            sliderType: "quarter-top-left",
+            max: maxval,
+            circleShape: "half-top",
+            sliderType: "min-range",
+            change: function (e) {
+                $("#" + id + "val").val(e.value);
+                array[id] = e.value;
+            }
+        });
+
+    }
+
+</script>
+
+
+<script>
+
+    // function setInputFilter(textbox, inputFilter) {
+    //     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+    //         textbox.addEventListener(event, function () {
+    //             if (inputFilter(this.value)) {
+    //                 this.oldValue = this.value;
+    //                 this.oldSelectionStart = this.selectionStart;
+    //                 this.oldSelectionEnd = this.selectionEnd;
+    //             } else if (this.hasOwnProperty("oldValue")) {
+    //                 this.value = this.oldValue;
+    //                 this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+    //             } else {
+    //                 this.value = "";
+    //             }
+    //         });
+    //     });
+    // }
+    //
+    //
+    // setInputFilter(document.getElementById("intLimitTextBox"), function (value) {
+    //     return /^\d*$/.test(value) && (value === "" || (parseInt(value) <= 5));
+    // });
 
 
 </script>
