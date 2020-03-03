@@ -85,12 +85,10 @@ module.exports = {
             table += '<td><div class="label-secondary ' + (accepted ? "text-green" : "text-orange") + '">' + (accepted ? "Verified" : "Pending") + '</div></td>';
 
             //check if key available
-            try {
-                await db.read_own_key(row.hash);
-                table += '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>';
-            } catch (err) {
-                table += '<td>No key available</td>'
-            }
+            let key = await db.read_key(row.hash);
+            table += key ?
+                '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>' :
+                '<td>No key available</td>';
 
             if (votings[row.key].done == 0) {
                 //Download
