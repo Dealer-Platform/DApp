@@ -390,6 +390,24 @@ module.exports = {
             blocksBehind: 3,
             expireSeconds: 30,
         });
+    },
+    updateuser() {
+        return api.transact({
+            actions: [{
+                account: 'reporting',
+                name: 'updateuser',
+                authorization: [{
+                    actor: config.user,
+                    permission: 'active',
+                }],
+                data: {
+                    user: config.user
+                },
+            }]
+        }, {
+            blocksBehind: 3,
+            expireSeconds: 30,
+        });
     }
 
 };

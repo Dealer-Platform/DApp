@@ -15,15 +15,15 @@ module.exports = {
     //unlock incidents
     async handleRequest(req, res) {
 
-      //redeem order
-      let type = req.body.type;
-      let orderKey = req.body.orderKey;
+        //redeem order
+        let type = req.body.type;
+        let orderKey = req.body.orderKey;
 
-      if (type == "redeem") {
-        await chainwrite.redeemforseller(orderKey);
-        this.loadPage(res);
-        return;
-      }
+        if (type == "redeem") {
+            await chainwrite.redeemforseller(orderKey);
+            this.loadPage(res);
+            return;
+        }
 
         try {
             if (req.body.orderKey) {
@@ -100,6 +100,20 @@ module.exports = {
             this.loadPage(res, e, true);
         }
 
+    }, getLastActive(username, userlist) {
+
+        for (let i = 0; i < userlist.rows.length; i++) {
+            if (userlist.rows[i].user == username) {
+                let lastactive = userlist.rows[i].last_active;
+
+                if (lastactive == "1970-01-01T00:00:00.000") {
+                    return "no data";
+                } else {
+                    return lastactive;
+                }
+            }
+        }
+        return "no data";
     },
 
 
@@ -122,11 +136,16 @@ module.exports = {
             orders[row.itemKey].push(row);
         }
 
-        let result = await chainread.items()
+        let result = await chainread.items();
         let unfinishedItems = [];
         let element = "";
         for (let i = 0; i < result.rows.length; i++) {
+
             let row = result.rows[i];
+
+            let assignments = await chainread.fullvotings(row.key);
+            let userlist = await chainread.users();
+
 
             if (row.reporter !== config.user)
                 continue;
@@ -140,14 +159,14 @@ module.exports = {
                 unlockedOrderCount = orders[row.key][0].bkeyupload
                 if (orders[row.key].length > 1)
                     unlockedOrderCount += orders[row.key].reduce((a, b) => a.bkeyupload + b.bkeyupload)
-
-                if (ordercount != 0) {
-                    element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
-                    element += '<label for="item-' + i + '" class="aspect-label"></label>';
-                }
             }
+            //   if (ordercount != 0) {
+            element += '<input id="item-' + i + '" type="checkbox" class="aspect-input" name="aspect">';
+            element += '<label for="item-' + i + '" class="aspect-label"></label>';
+            //     }
 
-            element += `<div class="aspect-content ${ordercount > 0 ? 'toggleable' : 'defcursor'}">
+
+            element += `<div class="aspect-content toggleable">
                         <div class="aspect-info">
                             <div class="chart-pie negative over50">
                                 <div>
@@ -176,12 +195,29 @@ module.exports = {
                     </form>`;
             }
             element += `<a href="/download?user=${row.reporter}&hash=${row.hash}" class="btn btn-sm btn-primary float-right ml-2">Download</a>`;
+
             element += '</div></div></div><div class="aspect-tab-content"><div class="sentiment-wrapper">';
 
 
-            if (orders[row.key] != undefined) {
-                element += '<div class="card-header border-0 text-orange">No sells yet</div>';
+            element += `<div class="table-responsive">
+                       <table class="table align-items-center table-flush">
+                        <tr>
+                            <th>Verifier</th>
+                            <th>Vote</th>
+                            <th>Last Active</th>
+                        </tr>
+                        <tr>`;
 
+            for (let iassign = 0; iassign < assignments.length; iassign++) {
+                element += `<tr><td>${assignments[iassign].voter}</td><td>${assignments[iassign].rating > 0 ? Math.round(assignments[iassign].rating * 100) / 100 : '-'}</td><td>${this.getLastActive(assignments[iassign].voter, userlist)}</td></tr>`;
+            }
+
+
+            element += `</table>`;
+
+            element += '</div></div><div class="aspect-tab-content"><div class="sentiment-wrapper">';
+
+            if (orders[row.key] != undefined) {
 
                 element += `<div class="table-responsive">
                        <table class="table align-items-center table-flush">
@@ -215,7 +251,7 @@ module.exports = {
               </form></td>`;
                     } else {
 
-                      //suggest redeem after period of 7 days
+                        //suggest redeem after period of 7 days
                         var date1 = new Date(order.timestamp);
                         var difference = (new Date().getTime() - date1.getTime()) / (1000 * 3600 * 24);
                         if (!order.finished && order.bkeyupload && difference > 7) {

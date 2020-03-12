@@ -54,7 +54,7 @@ module.exports = {
             "limit": 200
         });
     },
-    async orders_byOrder(key){
+    async orders_byOrder(key) {
         return await rpc.get_table_rows({
             "json": true,
             "code": "reporting",
@@ -107,8 +107,7 @@ module.exports = {
             "limit": 500
         });
     },
-
-    async voters_byItem(item){
+    async voters_byItem(item) {
         let voting = await this.votings();
         let assignedUsers = [];
         for (let i = 0; i < voting.rows.length; i++) {
@@ -117,6 +116,17 @@ module.exports = {
             }
         }
         return assignedUsers
+    },
+    async fullvotings(item) {
+        let voting = await this.votings();
+        let assignedUsers = [];
+        for (let i = 0; i < voting.rows.length; i++) {
+            if (voting.rows[i].itemKey === item) {
+                assignedUsers.push(voting.rows[i]);
+            }
+        }
+        return assignedUsers
     }
+
 
 };

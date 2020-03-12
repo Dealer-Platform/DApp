@@ -36,6 +36,10 @@ module.exports = {
         let view = nav.load(site);
         let votings = [];
 
+
+        chainwrite.updateuser();
+
+
         await chainread.votings().then(voting => {
             for (let i = 0; i < voting.rows.length; i++) {
                 let row = voting.rows[i];
