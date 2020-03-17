@@ -1,4 +1,8 @@
 const config = require('../config');
+const first = require('it-first');
+const all = require('it-all');
+const concat = require('it-concat');
+const BufferList = require('bl/BufferList');
 var ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({
     host: config.IPFS.ip,
@@ -24,18 +28,31 @@ async function writeJson(path, json){
 }
 
 /**
- * Read a single JSON items from an IPFS path
- * @param path Path to IPFS file
+ * Read a single JSON item from an IPFS Files path
+ * @param path Path to local IPFS file
  * @returns {Promise<*>}
  */
 async function readJsonFile(path) {
-    let res = await ipfs.files.read(path);
-    return JSON.parse(res.toString());
+    const chunks = [];
+    for await (const chunk of ipfs.files.read(path)) {
+        chunks.push(chunk)
+    }
+    return JSON.parse(Buffer.concat(chunks).toString());
 }
 
+/**
+ * Read a single JSON item from any IPFS path
+ * @param path Path to any IPFS file
+ * @returns {Promise<*>}
+ */
 async function readJson(path) {
-    let res = await ipfs.get(path);
-    return JSON.parse(res[0].content.toString());
+    for await (const file of ipfs.get(path)) {
+        const content = new BufferList();
+        for await (const chunk of file.content) {
+            content.append(chunk)
+        }
+        return JSON.parse(content.toString())
+    }
 }
 
 /**
@@ -44,8 +61,13 @@ async function readJson(path) {
  * @returns {Promise<*>}
  */
 async function readJsonDir(path){
-    let res = await ipfs.get(path);
-    return res.slice(1).map(c => JSON.parse(c.content.toString()))
+    let files = await all((async function * () {
+        for await (let { content } of ipfs.get(path)) {
+            content = content ? (await concat(content)).toString() : null;
+            yield { content }
+        }
+    })());
+    return files.slice(1).map(c => JSON.parse(c.content.toString()))
 }
 
 /**
@@ -54,7 +76,7 @@ async function readJsonDir(path){
  * @returns {Promise<void|string>}
  */
 async function resolveAndPin(ipns){
-    let dir = await ipfs.name.resolve(ipns);
+    let dir = await first(ipfs.name.resolve(ipns));
     //await ipfs.pin.add(ipns, { recursive: false }); //recursive:true would pin all items of that user. Future: ipfs name follow?
     return dir;
 }
@@ -64,10 +86,10 @@ async function resolveAndPin(ipns){
  */
 async function updateFeed(){
     let stat = await ipfs.files.stat("/user");
-    console.log('directory: ' + stat.hash);
+    console.log('directory: ' + stat.cid.toString());
     return Promise.all([
-        ipfs.name.publish(stat.hash),
-        ipfs.pin.add(stat.hash)
+        ipfs.name.publish(stat.cid),
+        ipfs.pin.add(stat.cid)
     ]);
 }
 
@@ -77,10 +99,9 @@ async function updateFeed(){
  * @returns {Promise<*>}
  */
 async function getUserItems(user){
-    let dir = resolveAndPin(user.ipns);
+    let dir = await resolveAndPin(user.ipns);
     let items = await readJsonDir(dir + '/items/');
     let keys = await readJsonDir(dir + '/keys/');
-
     //add each key to items by _id
     keys.forEach(key => {
         let item = items.find(item => {
@@ -88,15 +109,14 @@ async function getUserItems(user){
         });
         if(item) item.fileKeys = key.fileKeys;
     });
-
     return items;
 }
 
 
 module.exports = {
 
-    async read_user_items() {
-        return getUserItems(config.user);
+    async read_user_items(user) {
+        return getUserItems(user);
     },
 
     async read_own_key(hash){
@@ -110,9 +130,10 @@ module.exports = {
         let key = undefined;
         try {
             let result = await readJson(dir + '/keys/' + hash);
+
             key = result.fileKeys.find(key => key.user === config.user).encryptedFileKey;
         }
-        catch(err){}
+        catch(err){ console.log(err) }
         return key;
     },
 
