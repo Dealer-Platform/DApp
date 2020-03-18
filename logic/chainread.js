@@ -8,8 +8,8 @@ module.exports = {
     async blamings() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "blaming",
             "reverse": true
         });
@@ -17,8 +17,8 @@ module.exports = {
     async items() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "item",
             "reverse": true,
             "limit": 200
@@ -27,8 +27,8 @@ module.exports = {
     async warnings() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "notice",
             "reverse": true
         });
@@ -36,8 +36,8 @@ module.exports = {
     async items_byKey(key) {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "item",
             "lower_bound": key,
             "upper_bound": key,
@@ -48,8 +48,8 @@ module.exports = {
     async orders() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "order",
             "limit": 200
         });
@@ -57,8 +57,8 @@ module.exports = {
     async orders_byOrder(key) {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "order",
             "lower_bound": key,
             "upper_bound": key,
@@ -69,8 +69,8 @@ module.exports = {
     async users() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "users",
             "limit": 200
         });
@@ -90,8 +90,8 @@ module.exports = {
     async users_byUser(user) {
         let result = await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "users",
             "lower_bound": user,
             "limit": 1
@@ -101,8 +101,8 @@ module.exports = {
     async votings() {
         return await rpc.get_table_rows({
             "json": true,
-            "code": "reporting",
-            "scope": "reporting",
+            "code": "eosdealeradm",
+            "scope": "eosdealeradm",
             "table": "voteassign",
             "limit": 500
         });

@@ -11,7 +11,7 @@ module.exports = {
     apply(itemKey) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'apply',
                 authorization: [{
                     actor: config.user,
@@ -29,7 +29,7 @@ module.exports = {
     }, approve(key) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'approve',
                 authorization: [{
                     actor: config.user,
@@ -46,7 +46,7 @@ module.exports = {
     }, blame(blamed, reason, freeze) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'blame',
                 authorization: [{
                     actor: config.user,
@@ -66,7 +66,7 @@ module.exports = {
     }, buy(itemKey) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'placeorder',
                 authorization: [{
                     actor: config.user,
@@ -84,7 +84,7 @@ module.exports = {
     }, received(orderKey, done) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'received',
                 authorization: [{
                     actor: config.user,
@@ -103,7 +103,7 @@ module.exports = {
     }, report(hash, price, title, description, report, sale) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'report',
                 authorization: [{
                     actor: config.user,
@@ -126,7 +126,7 @@ module.exports = {
     }, warning(content) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'warning',
                 authorization: [{
                     actor: config.user,
@@ -147,7 +147,7 @@ module.exports = {
         let nonce = parseInt("0x" + crypto.getCryptoRandom(5));
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'selectvoter',
                 authorization: [{
                     actor: config.user,
@@ -166,7 +166,7 @@ module.exports = {
     }, sent(orderKey) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'sent',
                 authorization: [{
                     actor: config.user,
@@ -184,7 +184,7 @@ module.exports = {
     }, transfer(to, amount) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'transfer',
                 authorization: [{
                     actor: config.user,
@@ -203,7 +203,7 @@ module.exports = {
     }, updatepk(publicKey) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'updatepk',
                 authorization: [{
                     actor: config.user,
@@ -221,7 +221,7 @@ module.exports = {
     }, updateprice(itemKey, price) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'updateprice',
                 authorization: [{
                     actor: config.user,
@@ -240,7 +240,7 @@ module.exports = {
     }, verify(itemKey, accept, rating) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'verify',
                 authorization: [{
                     actor: config.user,
@@ -260,7 +260,7 @@ module.exports = {
     }, voteb(blameKey, value) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'voteb',
                 authorization: [{
                     actor: config.user,
@@ -280,7 +280,7 @@ module.exports = {
     keyupload(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'keyupload',
                 authorization: [{
                     actor: config.user,
@@ -299,7 +299,7 @@ module.exports = {
     opendispute(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'opendispute',
                 authorization: [{
                     actor: config.user,
@@ -318,7 +318,7 @@ module.exports = {
     closedispute(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'closedispute',
                 authorization: [{
                     actor: config.user,
@@ -337,7 +337,7 @@ module.exports = {
     finishorder(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'finishorder',
                 authorization: [{
                     actor: config.user,
@@ -356,7 +356,7 @@ module.exports = {
     redeemorder(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'redeemorder',
                 authorization: [{
                     actor: config.user,
@@ -375,7 +375,7 @@ module.exports = {
     redeemforseller(orderno) {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'sellredeem',
                 authorization: [{
                     actor: config.user,
@@ -394,7 +394,7 @@ module.exports = {
     updateuser() {
         return api.transact({
             actions: [{
-                account: 'reporting',
+                account: 'eosdealeradm',
                 name: 'updateuser',
                 authorization: [{
                     actor: config.user,
