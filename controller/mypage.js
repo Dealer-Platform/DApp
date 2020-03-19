@@ -6,14 +6,13 @@ const jsdom = require("jsdom");
 const jquery = require("jquery");
 const site = "mypage";
 const chainread = require('../logic/chainread');
+const ipfs = require('../logic/ipfs')
 
 module.exports = {
     handleRequest(req, res) {
 
     },
     async loadPage(res, err, done) {
-        // let head 		= fs.readFileSync(path + 'head.html', 'utf8');
-        // let navigation 	= fs.readFileSync(path + 'navigation.html', 'utf8');
         let mypage = nav.load(site);
 
         let ordercount = 0;
@@ -36,7 +35,6 @@ module.exports = {
             }
         });
 
-
         let analysiscount = 0;
         await chainread.votings().then(voting => {
             for (let i = 0; i < voting.rows.length; i++) {
@@ -47,8 +45,14 @@ module.exports = {
             }
         });
 
-
-
+        let [ user, ipfs_id ] = await Promise.all([
+          chainread.users_byUser(config.user),
+          ipfs.get_id()
+        ])
+        let warning = ipfs_id.id === user.ipns ? "" : " <br><span style='color:red'> " +
+          "<strong>Warning</strong>: Configured IPFS node and IPNS entry in contract do not match: <br>" +
+          "<code>" + ipfs_id.id +"</code> (Config)<br>" +
+          "<code>" + user.ipns + "</code> (Contract)</span>";
 
         let mypage_dom = new jsdom.JSDOM(mypage);
         let $ = jquery(mypage_dom.window);
@@ -57,8 +61,10 @@ module.exports = {
         $('.ordercount').html(ordercount);
         $('.currusername').html(config.user);
         $('#userlogo').attr("src", "../assets/img/theme/"+config.user+".jpg");
+        $('#warning').html(warning)
+        $('#eosapi').html(config.Nodeos.ip)
+        $('#ipfsapi').html(config.IPFS.ip)
 
-        let user = await chainread.users_byUser(config.user);
         $('#currentbalance').text(user.balance);
 
         mypage = mypage_dom.serialize();
