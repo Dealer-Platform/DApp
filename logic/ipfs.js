@@ -115,6 +115,10 @@ async function getUserItems(user){
 
 module.exports = {
 
+    async get_id(){
+        return ipfs.id()
+    },
+
     async read_user_items(user) {
         return getUserItems(user);
     },
