@@ -62,10 +62,15 @@ module.exports = {
         <th>Download</th>
         <th>Status</th>
         </tr>`;
+
+        //check if key available
+        let reporters = await Promise.all(items.rows.map(row => chainread.users_byUser(row.reporter)));
+        let keys = await Promise.all(reporters.map((reporter, index) => db.read_key(reporter, items.rows[index].hash) ));
+
         for (let i = 0; i < items.rows.length; i++) {
             let row = items.rows[i];
 
-            if (votings[row.key] == undefined)
+            if (votings[row.key] === undefined)
                 continue;
 
             table += '<tr>';
@@ -85,16 +90,14 @@ module.exports = {
             table += '<td><div class="label-primary">' + row.price + '</div></td>';
 
             //Status
-            let accepted = row.accepts < 3 ? false : true;
+            let accepted = row.accepts >= 3;
             table += '<td><div class="label-secondary ' + (accepted ? "text-green" : "text-orange") + '">' + (accepted ? "Verified" : "Pending") + '</div></td>';
 
-            //check if key available
-            let key = await db.read_key(row.hash);
-            table += key ?
+            table += keys[i] ?
                 '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>' :
                 '<td>No key available</td>';
 
-            if (votings[row.key].done == 0) {
+            if (votings[row.key].done === 0) {
                 //Download
                 // table += '<td>';
                 // table += '<input type="hidden" name="item" value="' + row.key + '"/>';
