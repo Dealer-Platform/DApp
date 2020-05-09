@@ -4,7 +4,7 @@ const {TextEncoder, TextDecoder} = require('util');
 const {Api, JsonRpc, RpcError} = require('eosjs');
 const {JsSignatureProvider} = require('eosjs/dist/eosjs-jssig');
 const signatureProvider = new JsSignatureProvider([config.privateKey_eos]);
-const rpc = new JsonRpc('http://' + config.Nodeos.ip + ':' + config.Nodeos.port, {fetch});
+const rpc = new JsonRpc(config.Nodeos.ip + ':' + config.Nodeos.port, {fetch});
 const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
 
 module.exports = {

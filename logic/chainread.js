@@ -1,7 +1,7 @@
 const config = require('../config');
 const {Api, JsonRpc, RpcError} = require('eosjs');
 const fetch = require('node-fetch');
-const rpc = new JsonRpc('http://' + config.Nodeos.ip + ':' + config.Nodeos.port, {fetch});
+const rpc = new JsonRpc(config.Nodeos.ip + ':' + config.Nodeos.port, {fetch});
 
 module.exports = {
 
