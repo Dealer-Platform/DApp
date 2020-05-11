@@ -7,29 +7,27 @@
   "main": "app.js",
   "keywords": [
     "nodejs",
-    "bootstrap",
     "express"
   ],
   "scripts": {
     "serve": "node app.js"
   },
   "dependencies": {
-    "assert": "^1.4.1",
+    "assert": "^2.0.0",
     "bl": "latest",
     "bigdecimal": "^0.6.1",
     "eosjs": "^20.0.3",
     "eosjs-api": "^7.0.4",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
-    "fs": "0.0.1-security",
-    "ipfs-http-client": "^42.0.0",
+    "ipfs-http-client": "^44.0.3",
     "it-all": "latest",
     "it-concat": "latest",
     "it-first": "latest",
-    "jquery": "^3.4.0",
-    "jsdom": "^14.0.0",
+    "jquery": "^3.5.1",
+    "jsdom": "^15.2.1",
     "mongodb": "^3.2.3",
-    "node-fetch": "^2.3.0",
-    "util": "^0.11.1"
+    "node-fetch": "^2.6.0",
+    "util": "^0.12.3"
   }
 }
