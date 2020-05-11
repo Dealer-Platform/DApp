@@ -8,19 +8,8 @@
   "passphrase_RSA": "ctzrlnqbclv8iumumu3lt",
   "publicKey_RSA_BSI": "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1OIupFdeYsxdSPgdHjpH\n4V1r9rkcHNGxHM3qXErHlrOpz30fo/n3tB8z12gLamYcTYhPDuea86lgXe0Sz5Ti\ngnCixDvxSdCgBw79w6Tm9IbwWAFdbnk5IGJnUOvSz3ib3foAxt3ycQMxmQXh2fA3\n5RaKAlFoqF2OK78J5XRzyf71sOcPOehn9WSXqnwpw7eJ\nPMEgA8G3T0+9YhPFu5Im\nYHfhGTvs0aVMJ0UiO7+7ARoOeaqctUcV2Tqm4drmNcFQAnb/xUisQtaQc3VvyitB\nVKCV3356WL02bKdiLFAPFeSJfV0tR9wGAGdqFCUkPdhPmjfc17ySEtHg3qL709hX\nOqHQb+PSpEhpQYxgayK440DDbqTxBzq+fgnUnm43gy8yu4ptH7G3miE1LJmsLV5M\n+PjwYMrjEnC/G020JjRtxSHQvXsJdQGQR9CW+tMT9m4yhO05uSpTUZ\nkII3XpiDYa\nJFINsxc3jZkHAGvZY/5tsEffT00+glYDUYSU3Lbdb31hriwJUkDFqSMg2hHF00wt\nz2FK/qeRcIZmT6OClE/1umghBIvKjFbMkws4x9QnvyFAMVIg+NId+2gw/7C//l31\nl1blwXp7aoPnARaUSQgl+mXVdqsVBDDvNSXHr5DgrcDMJjxYEmIU4FK5QW+Zcgl8\npXQf2DiwcbTRGJeuJrRsJhMCAwEAAQ==",
   "Nodeos": {
-    "ip": "localhost",
-    "port": 8888,
-    "version": "v1.8.1"
-  },
-  "Kesod": {
-    "ip": "localhost",
-    "port": 5555,
-    "version": "v1.8.1"
-  },
-  "MongoDB": {
-    "ip": "localhost",
-    "port": 27017,
-    "version": "v4.0.9"
+    "ip": "http://localhost",
+    "port": 8888
   },
   "IPFS": {
     "ip": "132.199.122.176",
