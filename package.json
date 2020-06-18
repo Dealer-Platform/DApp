@@ -20,7 +20,7 @@
     "eosjs-api": "^7.0.4",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
-    "ipfs-http-client": "^44.0.3",
+    "ipfs-http-client": "^44.2.0",
     "it-all": "latest",
     "it-concat": "latest",
     "it-first": "latest",
