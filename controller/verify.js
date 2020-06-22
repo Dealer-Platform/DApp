@@ -1,5 +1,4 @@
 const nav = require('./parent');
-const path = __dirname + '/views/';
 const chainwrite = require('../logic/chainwrite');
 const db = require('../logic/ipfs')
 const chainread = require('../logic/chainread');
@@ -7,6 +6,7 @@ const jsdom = require("jsdom");
 const jquery = require("jquery");
 const config = require('../config');
 const site = "verify";
+const utils = require('../logic/utils.js')
 
 module.exports = {
 
@@ -36,7 +36,7 @@ module.exports = {
         let view = nav.load(site);
         let votings = [];
 
-        await chainread.votings().then(voting => {
+        let votingsPromise = chainread.votings().then(voting => {
             for (let i = 0; i < voting.rows.length; i++) {
                 let row = voting.rows[i];
                 if (row.voter == config.user) {
@@ -45,7 +45,8 @@ module.exports = {
             }
         });
 
-        let items = await chainread.items();
+        let items = chainread.items();
+        [,items] = await Promise.all([votingsPromise, items]);
 
         let table = '<table class="table align-items-center table-flush">';
         table += `<tr>
@@ -80,7 +81,7 @@ module.exports = {
             table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '<br> Quality: ' + row.rating + '</div></td>';
 
             //description
-            table += '<td><div class="label-primary">' + row.description + '</div></td>';
+            table += '<td><div class="label-primary" title="' + row.description + '">' + utils.truncate(row.description, 70) + '</div></td>';
 
             //price
             table += '<td><div class="label-primary">' + row.price + '</div></td>';

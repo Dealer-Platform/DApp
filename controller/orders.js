@@ -36,9 +36,10 @@ module.exports = {
 //get order page and its buttons
     async loadPage(res, err, done) {
         let orders = nav.load(site);
-        let order_items = await chainread.orders();
-        let items = await chainread.items();
-        let users = await chainread.users();
+        let order_items = chainread.orders();
+        let items = chainread.items();
+        let users = chainread.users();
+        [order_items, items, users] = await Promise.all([order_items, items, users])
 
         let table_myOrders = '<table class="table align-items-center table-flush">';
         table_myOrders += '<tr><th>Item</th><th>Reporter</th><th>Name</th><th>Description</th></th><th>Order Date</th><th>Status</th><th>Actions</th><th>Rate</th></tr>';

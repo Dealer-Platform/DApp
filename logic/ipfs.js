@@ -135,7 +135,8 @@ module.exports = {
         try {
             let result = await readJson(dir + '/keys/' + hash);
 
-            key = result.fileKeys.find(key => key.user === config.user).encryptedFileKey;
+            key = result.fileKeys.find(key => key.user === config.user);
+            if(key) key = key.encryptedFileKey;
         }
         catch(err){ console.log(err) }
         return key;

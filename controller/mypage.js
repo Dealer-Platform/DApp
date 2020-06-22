@@ -1,7 +1,5 @@
 const config = require('../config.json');
 const nav = require('./parent');
-const chainwrite = require('../logic/chainwrite');
-const fs = require('fs');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
 const site = "mypage";
@@ -16,36 +14,24 @@ module.exports = {
         let mypage = nav.load(site);
 
         let ordercount = 0;
-        await chainread.orders().then(order => {
-            for (let i = 0; i < order.rows.length; i++) {
-                let row = order.rows[i];
-                if (row.buyer == config.user) {
-                    ordercount++;
-                }
-            }
+        let orders = chainread.orders().then(order => {
+            ordercount = order.rows.filter(row => row.buyer === config.user).length;
         });
 
         let reportcount = 0;
-        await chainread.items().then(item => {
-            for (let i = 0; i < item.rows.length; i++) {
-                let row = item.rows[i];
-                if (row.buyer == config.user) {
-                    reportcount++;
-                }
-            }
+        let items = chainread.items().then(item => {
+            reportcount = item.rows.filter(row => row.reporter === config.user).length;
         });
 
         let analysiscount = 0;
-        await chainread.votings().then(voting => {
-            for (let i = 0; i < voting.rows.length; i++) {
-                let row = voting.rows[i];
-                if (row.buyer == config.user) {
-                    analysiscount++;
-                }
-            }
+        let votings = chainread.votings().then(voting => {
+            analysiscount = voting.rows.filter(row => row.voter === config.user).length;
         });
 
-        let [ user, ipfs_id ] = await Promise.all([
+        let [ ,,, user, ipfs_id ] = await Promise.all([
+          orders,
+          items,
+          votings,
           chainread.users_byUser(config.user),
           ipfs.get_id()
         ])

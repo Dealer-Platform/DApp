@@ -121,8 +121,13 @@ module.exports = {
     async loadPage(res, err, done) {
         let view = nav.load(site);
 
+        let order = chainread.orders();
+        let result = chainread.items();
+        let userlist = chainread.users();
+        [order, result, userlist] = await Promise.all([order, result, userlist]);
+        let allAssignments = await Promise.all(result.rows.map(row => chainread.fullvotings(row.key)));
+
         let orders = [];
-        let order = await chainread.orders();
         for (let i = 0; i < order.rows.length; i++) {
             let row = order.rows[i];
 
@@ -136,16 +141,12 @@ module.exports = {
             orders[row.itemKey].push(row);
         }
 
-        let result = await chainread.items();
         let unfinishedItems = [];
         let element = "";
         for (let i = 0; i < result.rows.length; i++) {
 
             let row = result.rows[i];
-
-            let assignments = await chainread.fullvotings(row.key);
-            let userlist = await chainread.users();
-
+            let assignments = allAssignments[i];
 
             if (row.reporter !== config.user)
                 continue;

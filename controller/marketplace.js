@@ -7,6 +7,7 @@ const chainwrite = require('../logic/chainwrite');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
 const chainread = require('../logic/chainread');
+const utils = require('../logic/utils')
 
 module.exports = {
     handleRequest(req, res) {
@@ -28,17 +29,19 @@ module.exports = {
         let view = nav.load(site);
         let orders = [];
 
-        await chainread.orders().then(order => {
+        let order = chainread.orders().then(order => {
             for (let i = 0; i < order.rows.length; i++) {
                 let row = order.rows[i];
                 orders[row.itemKey] = row;
             }
         });
 
-        let items = await chainread.items();
+        let items = chainread.items();
 
         //filter out items where user is verifier
-        let votings = await chainread.votings();
+        let votings = chainread.votings();
+        [, items, votings] = await Promise.all([order,items,votings])
+
         let verifierItems = votings.rows.filter(v => v.voter === config.user).map(v => v.itemKey)
 
         items.rows = items.rows
@@ -70,10 +73,10 @@ module.exports = {
             table += '<td>' + row.reporter + '</td>';
 
             //title
-            table += '<td><div class="label-primary">' + row.title + '</div></td>';
+            table += '<td><div class="label-primary" title="' + row.title + '">' + utils.truncate(row.title, 30) + '</div></td>';
 
             //description
-            table += '<td><div class="label-primary">' + row.description + '</div></td>';
+            table += '<td><div class="label-primary" title="' + row.description + '">' + utils.truncate(row.description, 50) + '</div></td>';
 
             //information
             table += '<td><div class="label-ok">' + 'Votes: ' + row.votes + '</div></td>';

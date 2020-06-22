@@ -34,21 +34,20 @@ module.exports = {
 //get order page and its buttons
     async loadPage(res, err, done) {
         let orders = nav.load(site);
-        let order_items = await chainread.orders();
-        let items = await chainread.items();
+        let order_items = chainread.orders();
+        let items = chainread.items();
+        let votings = chainread.votings();
+        [order_items, items, votings] = await Promise.all([order_items, items, votings])
 
         let voteassignments = [];
+        for (let i = 0; i < votings.rows.length; i++) {
+            let row = votings.rows[i];
 
-        await chainread.votings().then(voting => {
-            for (let i = 0; i < voting.rows.length; i++) {
-                let row = voting.rows[i];
+            if (row.voter !== config.user)
+                continue;
 
-                if (row.voter !== config.user)
-                    continue;
-
-                voteassignments[row.itemKey] = row;
-            }
-        });
+            voteassignments[row.itemKey] = row;
+        }
 
 
         let table_dispute = '<table class="table align-items-center table-flush">';
