@@ -2,15 +2,6 @@ const express = require('express');
 global.viewsdir = __dirname + "/views/";
 const localdb = require('./logic/localdb');
 
-//eosjs
-// const { Api, JsonRpc, RpcError } = require('eosjs');
-// const { JsSignatureProvider } = require('eosjs/dist/eosjs-jssig');
-//load custom config file
-const config = require('./config.json');
-//manipulate html
-const jsdom = require("jsdom");
-const jquery = require("jquery");
-
 const app = express();
 const router = express.Router();
 const path = __dirname + '/views/';
@@ -130,11 +121,3 @@ app.post('/warnings', (req, res) => {
 });
 
 localdb.initKeystoreFile();
-
-// let pass = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-// console.log(pass)
-// console.log(crypto.calculateKeyPair(pass))
-
-// var ipfsClient = require('ipfs-http-client')
-// const ipfs = ipfsClient({ host: '132.199.123.57', port: '5001', protocol: 'http' })
-// const ipfs2 = ipfsClient({ host: '132.199.123.236', port: '5001', protocol: 'https' })
