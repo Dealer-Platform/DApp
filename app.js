@@ -7,6 +7,8 @@ const router = express.Router();
 const path = __dirname + '/views/';
 const port = 80;
 
+app.use(logResponseTime);
+
 //controller
 const c_home = require('./controller/home');
 const c_report = require('./controller/report');
@@ -21,12 +23,6 @@ const c_about = require('./controller/about');
 const c_download = require('./controller/download');
 const c_warnings = require('./controller/warnings');
 const c_warningreport = require('./controller/warningreport');
-
-router.use(function (req, res, next) {
-    console.log('/' + req.method);
-    next();
-});
-
 
 //GET ENDPOINTS: MANAGE ROUTING
 router.get('/', function (req, res) {
@@ -121,3 +117,17 @@ app.post('/warnings', (req, res) => {
 });
 
 localdb.initKeystoreFile();
+
+function logResponseTime(req, res, next) {
+    if(!(req.url.includes('assets') || req.url.includes('slider') || req.url.includes('css'))) {
+        const startHrTime = process.hrtime();
+
+        res.on("finish", () => {
+            const elapsedHrTime = process.hrtime(startHrTime);
+            const elapsedTimeInMs = elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1e6;
+            console.log("%s : %fms", req.path, elapsedTimeInMs);
+        });
+    }
+
+    next();
+}
