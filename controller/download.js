@@ -1,6 +1,7 @@
 const crypto = require('../logic/cryptofunctions');
 const db = require('../logic/ipfs');
 const chainread = require('../logic/chainread');
+const filter = require('../logic/filter')
 const config = require('../config');
 
 /**
@@ -48,7 +49,8 @@ module.exports = {
     let users = [user];
     if(dispute){
       //get verifier keys
-      let assignedUsers = await chainread.voters_byItem(dispute);
+      let votings = await chainread.votings();
+      let assignedUsers = filter.voters_byItem(votings, dispute);
       users = users.concat(assignedUsers)
     }
 

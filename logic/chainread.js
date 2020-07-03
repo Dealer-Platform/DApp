@@ -14,14 +14,14 @@ module.exports = {
             "reverse": true
         });
     },
-    async items() {
+    async items(limit=200) {
         return await rpc.get_table_rows({
             "json": true,
             "code": "eosdealeradm",
             "scope": "eosdealeradm",
             "table": "item",
             "reverse": true,
-            "limit": 200
+            "limit": limit
         });
     },
     async warnings() {
@@ -52,18 +52,6 @@ module.exports = {
             "scope": "eosdealeradm",
             "table": "order",
             "limit": 200
-        });
-    },
-    async orders_byOrder(key) {
-        return await rpc.get_table_rows({
-            "json": true,
-            "code": "eosdealeradm",
-            "scope": "eosdealeradm",
-            "table": "order",
-            "lower_bound": key,
-            "upper_bound": key,
-            "limit": 1,
-            "reverse": true
         });
     },
     async users() {
@@ -98,24 +86,14 @@ module.exports = {
         });
         return result.rows[0];
     },
-    async votings() {
+    async votings(limit=10000) {
         return await rpc.get_table_rows({
             "json": true,
             "code": "eosdealeradm",
             "scope": "eosdealeradm",
             "table": "voteassign",
-            "limit": 500
+            "limit": limit
         });
-    },
-    async voters_byItem(item) {
-        let voting = await this.votings();
-        let assignedUsers = [];
-        for (let i = 0; i < voting.rows.length; i++) {
-            if (voting.rows[i].itemKey === item) {
-                assignedUsers.push(voting.rows[i].voter);
-            }
-        }
-        return assignedUsers
     },
     async fullvotings(item) {
         let voting = await this.votings();

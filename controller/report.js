@@ -5,6 +5,7 @@ const chainwrite = require('../logic/chainwrite');
 const fs = require('fs');
 const crypto = require('../logic/cryptofunctions');
 const chainread = require('../logic/chainread');
+const filter = require('../logic/filter')
 const localdb = require('../logic/localdb');
 
 module.exports = {
@@ -36,11 +37,15 @@ module.exports = {
             ]);
 
             //find inserted itemkey on chain
-            let item = await chainread.items();
+            let [item, votings, users] = await Promise.all([
+                chainread.items_byKey(10),
+                chainread.votings(30),
+                chainread.users()
+            ]);
             let itemkey = -1;
 
             for (let i = 0; i < item.rows.length; i++) {
-                if (item.rows[i].hash == hashPayload) {
+                if (item.rows[i].hash === hashPayload) {
                     itemkey = item.rows[i].key;
                     break;
                 }
@@ -49,16 +54,16 @@ module.exports = {
             localdb.writeItemKeyPairToDisk(itemkey, fileKey);
 
             //find voting assignments for current item
-            let assignedUsers = await chainread.voters_byItem(itemkey)
+            let assignedUsers = filter.voters_byItem(votings,itemkey)
             if (isreport){
                 assignedUsers.push("bsi");
             }
 
             //get public keys for users
-            let userPromise = await Promise.all(assignedUsers.map(chainread.users_byUser))
+            let voters = users.rows.filter(user => assignedUsers.includes(user.user))
 
             let fileKeys = [];
-            userPromise.forEach((user) => {
+            voters.forEach((user) => {
                 let encryptedFileKey = crypto.encryptRSA(fileKey, user.publicKey);
                 fileKeys.push({user: user.user, encryptedFileKey: encryptedFileKey})
                 //RSA encrypt fileKey with publicKey
