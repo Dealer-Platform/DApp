@@ -10,20 +10,11 @@ const utils = require('../logic/utils.js')
 
 module.exports = {
 
-
     async handleRequest(req, res) {
-
-        let type = req.body.key;
-        let approve = req.body.approve;
-        let reject = req.body.reject;
         let item = req.body.item;
         let rating = req.body.rating;
         try {
-            // if (approve != undefined) {
             await chainwrite.verify(item, true, rating);
-            // } else {
-            //     await chainwrite.verify(item, false, rating);
-            // }
         } catch (e) {
             console.log(e);
             this.loadPage(res);
@@ -41,11 +32,13 @@ module.exports = {
                 let row = voting.rows[i];
                 if (row.voter == config.user) {
                     votings[row.itemKey] = row;
+                    votings[row.itemKey].encryptionKey = true;
                 }
             }
         });
 
         let items = chainread.items();
+        //let users = chainread.users();
         [,items] = await Promise.all([votingsPromise, items]);
 
         let table = '<table class="table align-items-center table-flush">';
@@ -61,12 +54,25 @@ module.exports = {
         </tr>`;
 
         //check if key available
-        let reporters = await Promise.all(items.rows.map(row => chainread.users_byUser(row.reporter)));
-        let keys = await Promise.all(reporters.map((reporter, index) => db.read_key(reporter, items.rows[index].hash) ));
+        // let votingReporters = utils.innerJoin(votings, items.rows, ({key, itemKey }, {key: uid, reporter, hash}) =>
+        //     itemKey === uid && {key, itemKey, reporter, hash})
+        // votingReporters = utils.innerJoin(votingReporters, users.rows, ({key, itemKey, reporter, hash}, {user, ipns}) =>
+        //     reporter === user && {key, itemKey, hash, ipns})
+        //
+        // let keys = await Promise.all(
+        //     votingReporters.map(v => {
+        //         return new Promise((resolve, reject) => {
+        //             let id = v.itemKey
+        //             db.read_key({"ipns": v.ipns}, v.hash).then((key) => {
+        //                 resolve({id: id, key: key})
+        //             })
+        //         })
+        //     })
+        // )
+        // for (let key of keys) votings[key.id].encryptionKey = key.key;
 
         for (let i = 0; i < items.rows.length; i++) {
             let row = items.rows[i];
-
             if (votings[row.key] === undefined)
                 continue;
 
@@ -90,7 +96,7 @@ module.exports = {
             let accepted = row.accepts >= 3;
             table += '<td><div class="label-secondary ' + (accepted ? "text-green" : "text-orange") + '">' + (accepted ? "Verified" : "Pending") + '</div></td>';
 
-            table += keys[i] ?
+            table += votings[row.key].encryptionKey ?
                 '<td><a href="/download?user=' + row.reporter + '&hash=' + row.hash + '" class="btn btn-sm btn-primary">Download</a></td>' :
                 '<td>No key available</td>';
 
