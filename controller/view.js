@@ -8,6 +8,7 @@ const chainwrite = require('../logic/chainwrite');
 const db = require('../logic/ipfs')
 const localdb = require('../logic/localdb');
 const crypto = require('../logic/cryptofunctions');
+const filter = require('../logic/filter')
 
 
 module.exports = {
@@ -122,10 +123,12 @@ module.exports = {
         let view = nav.load(site);
 
         let order = chainread.orders();
-        let result = chainread.items();
+        let items = chainread.items();
         let userlist = chainread.users();
-        [order, result, userlist] = await Promise.all([order, result, userlist]);
-        let allAssignments = await Promise.all(result.rows.map(row => chainread.fullvotings(row.key)));
+        let votings = chainread.votings();
+        [order, items, userlist, votings] = await Promise.all([order, items, userlist, votings]);
+        let allAssignments = items.rows.map(row => filter.votings_byItem(votings, row.key))
+        //let allAssignments = await Promise.all(items.rows.map(row => chainread.fullvotings(row.key)));
 
         let orders = [];
         for (let i = 0; i < order.rows.length; i++) {
@@ -143,9 +146,9 @@ module.exports = {
 
         let unfinishedItems = [];
         let element = "";
-        for (let i = 0; i < result.rows.length; i++) {
+        for (let i = 0; i < items.rows.length; i++) {
 
-            let row = result.rows[i];
+            let row = items.rows[i];
             let assignments = allAssignments[i];
 
             if (row.reporter !== config.user)
