@@ -17,10 +17,10 @@ module.exports = {
             await chainwrite.verify(item, true, rating);
         } catch (e) {
             console.log(e);
-            this.loadPage(res);
+            this.loadPage(res, e, false);
         }
 
-        this.loadPage(res);
+        this.loadPage(res, false, true);
 
     },
     async loadPage(res, err, done) {
