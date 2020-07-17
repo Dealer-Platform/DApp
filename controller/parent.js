@@ -2,8 +2,6 @@ const fs = require('fs');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
 const config = require('../config.json');
-const chainread = require('../logic/chainread');
-
 
 module.exports = {
 
@@ -23,18 +21,20 @@ module.exports = {
         return fs.readFileSync(global.viewsdir + 'template_footer.html', 'utf8');
     },
     async deliver(res, sitecontent, err, done) {
-        //res.send('<!DOCTYPE html><html lang="de">' + this.head() + '<body>' + this.navigation() + sitecontent + '</body></html>');
         let footer = this.handleMessage(this.template_footer(), err, done);
         let header = this.template_head();
 
-        let user = await chainread.users_byUser(config.user);
-
         header += `    <script>
-        $(document).ready(function () {
-            $('#currentuser').html("<p>${config.user} (${user.balance} Tokens)</p>");
-            $('#currentuserimage').attr("src", "assets/img/theme/${config.user}.jpg");
-        });
-        </script>`;
+            $(document).ready(function () {
+
+            $('#currentuser').html("<p>${config.user}</p>");`
+
+        let path = "assets/img/theme/" + config.user + ".jpg"
+        let img = fs.existsSync('views/' + path);
+        if(img)
+            header+= `$('#currentuserimage').replaceWith("<img src='${path}'/>");`
+
+        header += `}); </script>`;
 
         res.send(header + sitecontent + footer);
 
