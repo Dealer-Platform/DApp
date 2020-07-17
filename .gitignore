@@ -160,7 +160,7 @@ typings/
 .dynamodb/
 
 config.json
-/nbproject/private/
+nbproject
 
 configsampleslocal/
 keystore.deal
