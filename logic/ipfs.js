@@ -173,7 +173,7 @@ module.exports = {
             writeJson(keysPath + hashEncryptedData, fileKey)
         ]);
 
-        await updateFeed();
+        //await updateFeed();
     },
 
   /**
