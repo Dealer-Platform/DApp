@@ -11,8 +11,9 @@ const config = require('../config');
  * @returns {Promise<void>}
  */
 async function getAndDecrypt(users, hash){
-  let item = await db.read_item(users[0], hash);
-  let keys = await Promise.all(users.map(user => db.read_key(user, hash)));
+  let item_promise = db.read_item(users[0], hash);
+  let keys_promise = Promise.all(users.map(user => db.read_key(user, hash)));
+  let [item, keys] = await Promise.all([item_promise, keys_promise])
   keys = keys.filter(k => k !== undefined);
   let decrypted = undefined;
   for(const key of keys){
