@@ -86,13 +86,14 @@ module.exports = {
         });
         return result.rows[0];
     },
-    async votings(limit=10000) {
+    async votings(limit=100000) {
         return await rpc.get_table_rows({
             "json": true,
             "code": "eosdealeradm",
             "scope": "eosdealeradm",
             "table": "voteassign",
-            "limit": limit
+            "limit": limit,
+            "reverse": true
         });
     }
 

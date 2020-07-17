@@ -38,12 +38,11 @@ module.exports = {
 
             //find inserted itemkey on chain
             let [item, votings, users] = await Promise.all([
-                chainread.items_byKey(10),
+                chainread.items(10),
                 chainread.votings(30),
                 chainread.users()
             ]);
             let itemkey = -1;
-
             for (let i = 0; i < item.rows.length; i++) {
                 if (item.rows[i].hash === hashPayload) {
                     itemkey = item.rows[i].key;
@@ -52,7 +51,7 @@ module.exports = {
             }
 
             localdb.writeItemKeyPairToDisk(itemkey, fileKey);
-
+            
             //find voting assignments for current item
             let assignedUsers = filter.voters_byItem(votings,itemkey)
             if (isreport){
@@ -68,6 +67,7 @@ module.exports = {
                 fileKeys.push({user: user.user, encryptedFileKey: encryptedFileKey})
                 //RSA encrypt fileKey with publicKey
             });
+
             //upload fileKeys
             await db.write_addEncryptedFileKeys(hashPayload, fileKeys);
 
