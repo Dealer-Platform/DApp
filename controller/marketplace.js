@@ -1,8 +1,6 @@
 const config = require('../config');
 const nav = require('./parent');
 const site = "marketplace";
-//const db = require('../logic/mongodb');
-const db = require('../logic/ipfs');
 const chainwrite = require('../logic/chainwrite');
 const jsdom = require("jsdom");
 const jquery = require("jquery");
@@ -18,7 +16,7 @@ module.exports = {
         promise.then((result) => {
             this.loadPage(res, false, true);
         }, (err) => {
-            this.loadPage(res, err);
+            this.loadPage(res, err, false);
         });
 
     },
