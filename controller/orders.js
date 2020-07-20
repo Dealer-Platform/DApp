@@ -47,9 +47,7 @@ module.exports = {
             let row = order_items.rows[i];
             if (row.buyer !== config.user)
                 continue;
-
             let item = items.rows.filter(i => i.key === row.itemKey)[0];
-            let user = users.rows.filter(i => i.user === row.seller)[0];
 
             table_myOrders += '<tr>';
             table_myOrders += '<td>' + row.itemKey + '</td>';
@@ -73,8 +71,8 @@ module.exports = {
                 table_myOrders += '</td>';
             } else {
                 //check if key available
-                let key = await db.read_key(user, item.hash);
-                if (key) {
+                let key_available = row.bkeyupload;
+                if (key_available) {
                     if (!row.finished && !row.dispute) {
                         table_myOrders += '<td>Accepted</td><td><a href="/download?user=' + row.seller + '&hash=' + item.hash + '&finish=' + row.key + '" class="btn btn-sm btn-primary">Download</a></td><td>';
                         table_myOrders += '<form id="availupform" class="inline"  action="/orders" method="post"><input name="order" type="hidden" value="' + row.key + '" /><input name="fnc" type="hidden" value="finish" /><span class="fa fa-2x fa-thumbs-up thumbsbutton text-green" onclick="$(\'#availupform\').submit();"></span></form>';
