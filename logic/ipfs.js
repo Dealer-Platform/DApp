@@ -9,11 +9,8 @@ const ipfs = ipfsClient({
     port: config.IPFS.port,
     protocol: 'http'
 });
-
 const itemsPath = "/user/items/";
 const keysPath = "/user/keys/";
-
-const chain = require('./chainread');
 
 /**
  * Write a single JS object to a JSON file in a local IPFS path (MFS)
@@ -24,7 +21,7 @@ const chain = require('./chainread');
 async function writeJson(path, json){
     return ipfs.files.write(path,
         Buffer.from(JSON.stringify(json)),
-        {create: true, parents: true});
+        {create: true, parents: true, flush: false});
 }
 
 /**
@@ -87,10 +84,7 @@ async function resolveAndPin(ipns){
 async function updateFeed(){
     let stat = await ipfs.files.stat("/user");
     console.log('directory: ' + stat.cid.toString());
-    return Promise.all([
-        ipfs.name.publish(stat.cid),
-        ipfs.pin.add(stat.cid)
-    ]);
+    return ipfs.name.publish(stat.cid);
 }
 
 /**
@@ -119,10 +113,6 @@ module.exports = {
         return ipfs.id()
     },
 
-    async read_user_items(user) {
-        return getUserItems(user);
-    },
-
     async read_own_key(hash){
         let result = await readJsonFile(keysPath + hash);
         let key = result.fileKeys.find(key => key.user === config.user);
@@ -140,13 +130,6 @@ module.exports = {
         }
         catch(err){ console.log(err) }
         return key;
-    },
-
-    async read_all_items() {
-        let users = (await chain.users()).rows;
-        return [].concat.apply([],
-          await Promise.all(users.map(getUserItems))
-        );
     },
 
     async read_item(user, hash) {
