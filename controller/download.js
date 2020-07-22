@@ -21,7 +21,7 @@ async function getAndDecrypt(users, hash){
       decrypted = decrypt(key, item);
       break;
     }
-    catch(err){}
+    catch(err){ console.log(err) }
   }
   return new Promise((resolve, reject) => {
     if(decrypted) resolve(decrypted);
