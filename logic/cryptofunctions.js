@@ -17,16 +17,18 @@ module.exports = {
         const iv = crypto.randomBytes(16);
         //ISO/IEC 10116:2017
         let cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(key), iv);
-        let encrypted = cipher.update(text);
-        encrypted = Buffer.concat([encrypted, cipher.final()]);
-        return {iv: iv.toString('hex'), encryptedData: encrypted.toString('hex')};
+        let encrypted = Buffer.concat([
+            cipher.update(text, 'utf8'),
+            cipher.final()
+        ]);
+        return {iv: iv.toString('base64'), encryptedData: encrypted.toString('base64')};
     },
     decryptAES(text, key, init_vector) {
-        let iv = Buffer.from(init_vector, 'hex');
-        let encryptedText = Buffer.from(text, 'hex');
+        let iv = Buffer.from(init_vector, 'base64');
+        let encryptedText = Buffer.from(text, 'base64');
         let decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(key), iv);
-        let decrypted = decipher.update(encryptedText);
-        decrypted = Buffer.concat([decrypted, decipher.final()]);
+        let decrypted = decipher.update(encryptedText, 'binary', 'utf8') +
+            decipher.final('utf-8');
         return decrypted.toString();
     },
 
