@@ -5,9 +5,6 @@ const config = require('../config.json');
 
 module.exports = {
 
-    head() {
-        return fs.readFileSync(global.viewsdir + 'head.html', 'utf8');
-    },
     navigation() {
         return fs.readFileSync(global.viewsdir + 'navigation.html', 'utf8');
     },
@@ -21,8 +18,10 @@ module.exports = {
         return fs.readFileSync(global.viewsdir + 'template_footer.html', 'utf8');
     },
     async deliver(res, sitecontent, err, done) {
-        let footer = this.handleMessage(this.template_footer(), err, done);
+        let footer = this.template_footer();
         let header = this.template_head();
+        if(err || done)
+            sitecontent = this.handleMessage(sitecontent, err, done);
 
         header += `    <script>
             $(document).ready(function () {
@@ -40,27 +39,19 @@ module.exports = {
 
     },
     handleMessage(tmpl, err, done) {
+        let dom = new jsdom.JSDOM(tmpl);
+        let $ = jquery(dom.window);
+        let notifier = $('#notifier')
         if (err) {
-            tmpl = this.errormsg(tmpl, err);
+            notifier.parent().addClass('bg-warning')
+            notifier.html(err);
         }
-        if (done) {
-            tmpl = this.successmsg(tmpl, err);
+        else if (done) {
+            notifier.parent().addClass('bg-success')
+            notifier.html("Success");
         }
-        return tmpl;
-    },
-    errormsg(report, error) {
-        let message = "<div class='bg-warning'>" + error + "</div>";
-        let report_error_dom = new jsdom.JSDOM(report);
-        let $ = jquery(report_error_dom.window);
-        $('p.error').html(message);
-        return report_error_dom.serialize();
-    },
-    successmsg(report, info) {
-        let message = "<div class='bg-success'>Success</div>";
-        let report_error_dom = new jsdom.JSDOM(report);
-        let $ = jquery(report_error_dom.window);
-        $('p.success').html(message);
-        return report_error_dom.serialize()
+        notifier.parent().removeClass('d-none')
+        return dom.serialize();
     }
 
 };
